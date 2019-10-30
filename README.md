@@ -49,7 +49,7 @@ See also the list of [contributors](https://github.com/LLNL/radiuss-ci/contribut
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-All new contributions must be made under both the MIT..
+All new contributions must be made under the MIT License.
 
 See [LICENSE](https://github.com/LLNL/radiuss-ci/blob/master/LICENSE),
 [COPYRIGHT](https://github.com/LLNL/radiuss-ci/blob/master/COPYRIGHT), and
