@@ -1,0 +1,14 @@
+###############################################################################
+# Copyright (c) 2019, Lawrence Livermore National Security, LLC and other
+# RADIUSS-CI project contributors. See top-level COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: MIT
+###############################################################################
+
+spack:
+  include:
+  - gcc_8_1_0/compilers.yaml
+  - gcc_8_1_0/packages.yaml
+
+  view: false
+  concretization: separately

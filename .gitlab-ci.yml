@@ -1,0 +1,178 @@
+##############################################################################
+# Copyright (c) 2016-19, Lawrence Livermore National Security, LLC and Umpire
+# project contributors. See the COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (MIT)
+##############################################################################
+
+variables:
+  SPACK_PATH: $CI_BUILDS_DIR/spack-radiuss
+
+stages:
+  - environment
+  - concretize-alone
+  - concretize-group
+  - concretize-all
+
+.get_spack: &get_spack |
+  if [[ ! -d ${SPACK_PATH} ]]
+  then
+    git clone https://github.com/spack/spack.git --depth 1 --branch develop ${SPACK_PATH}
+  else
+    cd ${SPACK_PATH}
+    branch="develop_$(date +%s)"
+    git fetch --depth 1 origin develop:$branch
+    git checkout $branch
+    cd -
+  fi
+
+configure_python:
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - shell
+    - quartz
+  stage: environment
+  script:
+    - *get_spack
+
+.concretize:
+  tags:
+    - shell
+    - quartz
+  before_script:
+    - date
+    - . ${SPACK_PATH}/share/spack/setup-env.sh
+    - cd spack-environments/${SYS_TYPE}/
+    - spack -d env activate .
+    - cd -
+  after_script:
+    - date
+
+.concretize-alone:
+  extends: .concretize
+  stage: concretize-alone
+
+.concretize-group:
+  extends: .concretize
+  stage: concretize-group
+
+.concretize-all:
+  extends: .concretize
+  stage: concretize-all
+
+concretize_umpire:
+  extends: .concretize-alone
+  script:
+    - spack spec umpire
+
+concretize_raja:
+  extends: .concretize-alone
+  script:
+    - spack spec raja
+
+concretize_hypre:
+  extends: .concretize-alone
+  script:
+    - spack spec hypre
+
+concretize_mfem:
+  extends: .concretize-alone
+  script:
+    - spack spec mfem
+
+concretize_conduit:
+  extends: .concretize-alone
+  script:
+    - spack spec conduit
+
+concretize_sundials:
+  extends: .concretize-alone
+  script:
+    - spack spec sundials
+
+concretize_samrai:
+  extends: .concretize-alone
+  script:
+    - spack spec samrai
+
+concretize_xbraid:
+  extends: .concretize-alone
+  script:
+    - spack spec xbraid
+
+concretize_ascent:
+  extends: .concretize-alone
+  script:
+    - spack spec ascent
+
+concretize_zfp:
+  extends: .concretize-alone
+  script:
+    - spack spec zfp
+
+concretize_scr:
+  extends: .concretize-alone
+  script:
+    - spack spec scr
+
+concretize_visit:
+  extends: .concretize-alone
+  script:
+    - spack spec visit
+
+concretize_glvis:
+  extends: .concretize-alone
+  script:
+    - spack spec glvis
+
+concretize_caliper:
+  extends: .concretize-alone
+  script:
+    - spack spec caliper
+
+concretize_spindle:
+  extends: .concretize-alone
+  script:
+    - spack spec spindle
+
+concretize_flux-sched:
+  extends: .concretize-alone
+  script:
+    - spack spec flux-sched
+
+concretize_py-maestrowf:
+  extends: .concretize-alone
+  script:
+    - spack spec py-maestrowf
+
+concretize_math_physics:
+  extends: .concretize-group
+  script:
+    - spack spec mfem hypre sundials samrai xbraid
+  needs: [concretize_mfem, concretize_hypre, concretize_sundials, concretize_samrai, concretize_xbraid]
+
+concretize_data_visualization:
+  extends: .concretize-group
+  script:
+    - spack spec conduit ascent zfp scr visit
+  needs: [concretize_conduit, concretize_ascent, concretize_zfp, concretize_scr, concretize_visit]
+
+concretize_portability_memory:
+  extends: .concretize-group
+  script:
+    - spack spec umpire raja
+  needs: [concretize_umpire, concretize_raja]
+
+concretize_performances_workflow:
+  extends: .concretize-group
+  script:
+    - spack spec caliper spindle flux-sched py-maestrowf
+  needs: [concretize_caliper, concretize_spindle, concretize_flux-sched, concretize_py-maestrowf]
+
+concretize_radiuss:
+  extends: .concretize-all
+  script:
+    - spack add caliper spindle flux-sched py-maestrowf mfem hypre sundials samrai xbraid conduit ascent zfp scr visit umpire raja
+    - spack concretize
+  needs: [concretize_math_physics, concretize_data_visualization, concretize_portability_memory, concretize_performances_workflow]
