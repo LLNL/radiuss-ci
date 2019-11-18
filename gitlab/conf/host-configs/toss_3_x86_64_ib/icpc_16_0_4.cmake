@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: (MIT)
 ##############################################################################
-set(CMAKE_CXX_COMPILER "/usr/tcetmp/bin/g++" CACHE PATH "")
-set(CMAKE_C_COMPILER "/usr/tcetmp/bin/gcc" CACHE PATH "")
-set(CMAKE_Fortran_COMPILER "/usr/tcetmp/bin/gfortran" CACHE PATH "")
-
+set(CMAKE_CXX_COMPILER "/usr/tce/packages/intel/intel-16.0.4/bin/icpc" CACHE PATH "")
+set(CMAKE_C_COMPILER "/usr/tce/packages/intel/intel-16.0.4/bin/icc" CACHE PATH "")
+set(CMAKE_Fortran_COMPILER "/usr/tce/packages/intel/intel-16.0.4/bin/ifort" CACHE PATH "")

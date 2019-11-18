@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: (MIT)
 ##############################################################################
-set(CMAKE_CXX_COMPILER "/usr/tcetmp/bin/g++" CACHE PATH "")
-set(CMAKE_C_COMPILER "/usr/tcetmp/bin/gcc" CACHE PATH "")
-set(CMAKE_Fortran_COMPILER "/usr/tcetmp/bin/gfortran" CACHE PATH "")
-
+set(CMAKE_CXX_COMPILER "/usr/global/tools/clang/chaos_5_x86_64_ib/clang-3.9.1/bin/clang++" CACHE PATH "")
+set(CMAKE_C_COMPILER "/usr/global/tools/clang/chaos_5_x86_64_ib/clang-3.9.1/bin/clang" CACHE PATH "")
+set(CMAKE_Fortran_COMPILER "/usr/apps/gnu/4.9.3/bin/gfortran" CACHE PATH "")
