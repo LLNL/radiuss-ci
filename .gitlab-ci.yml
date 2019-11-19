@@ -64,110 +64,131 @@ configure_python:
 concretize_umpire:
   extends: .concretize-alone
   script:
-    - spack spec umpire
+    - spack add umpire
+    - spack concretize
 
 concretize_raja:
   extends: .concretize-alone
   script:
-    - spack spec raja
+    - spack add raja
+    - spack concretize
 
 concretize_hypre:
   extends: .concretize-alone
   script:
-    - spack spec hypre
+    - spack add hypre
+    - spack concretize
 
 concretize_mfem:
   extends: .concretize-alone
   script:
-    - spack spec mfem
+    - spack add mfem
+    - spack concretize
 
 concretize_conduit:
   extends: .concretize-alone
   script:
-    - spack spec conduit
+    - spack add conduit
+    - spack concretize
 
 concretize_sundials:
   extends: .concretize-alone
   script:
-    - spack spec sundials
+    - spack add sundials
+    - spack concretize
 
 concretize_samrai:
   extends: .concretize-alone
   script:
-    - spack spec samrai
+    - spack add samrai
+    - spack concretize
 
 concretize_xbraid:
   extends: .concretize-alone
   script:
-    - spack spec xbraid
+    - spack add xbraid
+    - spack concretize
 
 concretize_ascent:
   extends: .concretize-alone
   script:
-    - spack spec ascent
+    - spack add ascent
+    - spack concretize
 
 concretize_zfp:
   extends: .concretize-alone
   script:
-    - spack spec zfp
+    - spack add zfp
+    - spack concretize
 
 concretize_scr:
   extends: .concretize-alone
   script:
-    - spack spec scr
+    - spack add scr
+    - spack concretize
 
 concretize_visit:
   extends: .concretize-alone
   script:
-    - spack spec visit
+    - spack add visit
+    - spack concretize
 
 concretize_glvis:
   extends: .concretize-alone
   script:
-    - spack spec glvis
+    - spack add glvis
+    - spack concretize
 
 concretize_caliper:
   extends: .concretize-alone
   script:
-    - spack spec caliper
+    - spack add caliper
+    - spack concretize
 
 concretize_spindle:
   extends: .concretize-alone
   script:
-    - spack spec spindle
+    - spack add spindle
+    - spack concretize
 
 concretize_flux-sched:
   extends: .concretize-alone
   script:
-    - spack spec flux-sched
+    - spack add flux-sched
+    - spack concretize
 
 concretize_py-maestrowf:
   extends: .concretize-alone
   script:
-    - spack spec py-maestrowf
+    - spack add py-maestrowf
+    - spack concretize
 
 concretize_math_physics:
   extends: .concretize-group
   script:
-    - spack spec mfem hypre sundials samrai xbraid
+    - spack add mfem hypre sundials samrai xbraid
+    - spack concretize
   needs: [concretize_mfem, concretize_hypre, concretize_sundials, concretize_samrai, concretize_xbraid]
 
 concretize_data_visualization:
   extends: .concretize-group
   script:
-    - spack spec conduit ascent zfp scr visit
+    - spack add conduit ascent zfp scr visit
+    - spack concretize
   needs: [concretize_conduit, concretize_ascent, concretize_zfp, concretize_scr, concretize_visit]
 
 concretize_portability_memory:
   extends: .concretize-group
   script:
-    - spack spec umpire raja
+    - spack add umpire raja
+    - spack concretize
   needs: [concretize_umpire, concretize_raja]
 
 concretize_performances_workflow:
   extends: .concretize-group
   script:
-    - spack spec caliper spindle flux-sched py-maestrowf
+    - spack add caliper spindle flux-sched py-maestrowf
+    - spack concretize
   needs: [concretize_caliper, concretize_spindle, concretize_flux-sched, concretize_py-maestrowf]
 
 concretize_radiuss:
