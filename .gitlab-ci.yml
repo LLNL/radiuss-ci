@@ -6,7 +6,7 @@
 ##############################################################################
 
 variables:
-  SPACK_PATH: $CI_BUILDS_DIR/spack-radiuss
+  SPACK_PATH: ${CI_BUILDS_DIR}/spack-radiuss
   TOOLCHAIN: gcc_8_1_0
 
 stages:
@@ -26,10 +26,12 @@ stages:
     git checkout $branch
     cd -
   fi
+  cd ${SPACK_PATH}
+  git apply ${CI_PROJECT_DIR}/patches/spack/user-scope.patch
+  git commit -am "Moving user scope in spack directory"
+  cd -
 
 configure_python:
-  variables:
-    GIT_STRATEGY: none
   tags:
     - shell
     - quartz
