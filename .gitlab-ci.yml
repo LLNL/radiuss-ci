@@ -7,6 +7,7 @@
 
 variables:
   SPACK_PATH: $CI_BUILDS_DIR/spack-radiuss
+  TOOLCHAIN: gcc_8_1_0
 
 stages:
   - environment
@@ -43,7 +44,7 @@ configure_python:
   before_script:
     - date
     - . ${SPACK_PATH}/share/spack/setup-env.sh
-    - cd spack-environments/${SYS_TYPE}/
+    - cd spack-environments/${SYS_TYPE}/${TOOLCHAIN}
     - spack -d env activate .
     - cd -
   after_script:

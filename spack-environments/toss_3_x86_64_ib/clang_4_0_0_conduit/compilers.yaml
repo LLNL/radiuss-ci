@@ -1,0 +1,15 @@
+compilers:
+- compiler:
+    environment: {}
+    extra_rpaths: []
+    flags: {}
+    modules: []
+    operating_system: rhel7
+    paths:
+      cc:  /usr/tce/packages/clang/clang-4.0.0/bin/clang
+      cxx: /usr/tce/packages/clang/clang-4.0.0/bin/clang++
+      f77: None
+      fc:  None
+    spec: clang@4.0.0
+    target: x86_64
+

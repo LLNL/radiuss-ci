@@ -7,8 +7,8 @@
 
 spack:
   include:
-  - gcc_8_1_0/compilers.yaml
-  - gcc_8_1_0/packages.yaml
+  - compilers.yaml
+  - packages.yaml
 
   view: false
   concretization: separately
