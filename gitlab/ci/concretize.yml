@@ -159,3 +159,22 @@ concretize_radiuss:
     - spack add caliper spindle flux-sched py-maestrowf mfem hypre sundials samrai xbraid conduit ascent zfp scr visit umpire raja
     - spack concretize
   needs: [concretize_math_physics, concretize_data_visualization, concretize_portability_memory, concretize_performances_workflow]
+  artifacts:
+    paths:
+      - spack-environments/${SYS_TYPE}/${TOOLCHAIN}
+
+radiuss_build_pipeline:
+  extends: .spack_environments_rules
+  tags:
+    - shell
+    - quartz
+  stage: pipeline-gen
+  before_script:
+    - date
+    - . ${SPACK_PATH}/share/spack/setup-env.sh
+    - cp spack-environments/${SYS_TYPE}/${TOOLCHAIN}/* ./
+    - spack -d env activate .
+  script:
+    - spack -d ci start --cdash-token "${CDASH_AUTH_TOKEN}" --downstream-repo "${DOWNSTREAM_CI_REPO}" --branch-name "${CI_COMMIT_REF_NAME}" --commit-sha "${CI_COMMIT_SHA}"
+  after_script:
+    - date
