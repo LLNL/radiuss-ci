@@ -26,6 +26,8 @@ stages:
     git checkout $branch
     cd -
   fi
+
+.patch_spack: &patch_spack |
   cd ${SPACK_PATH}
   git apply ${CI_PROJECT_DIR}/patches/spack/user-scope.patch
   git commit -am "Moving user scope in spack directory"
@@ -38,6 +40,7 @@ configure_python:
   stage: environment
   script:
     - *get_spack
+    - *patch_spack
 
 .concretize:
   tags:
