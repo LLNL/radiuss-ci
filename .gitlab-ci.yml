@@ -8,21 +8,24 @@
 variables:
   SPACK_PATH: ${CI_BUILDS_DIR}/spack-radiuss
   TOOLCHAIN: gcc_8_1_0
+  SPACK_REPO: ssh://git@czgitlab.llnl.gov:7999/spackpipelines/spack-test-pipeline.git
+  SPACK_REF: test-pipeline
 
 stages:
   - environment
   - concretize-alone
   - concretize-group
   - concretize-all
+  - pipeline-gen
 
 .get_spack: &get_spack |
   if [[ ! -d ${SPACK_PATH} ]]
   then
-    git clone https://github.com/spack/spack.git --depth 1 --branch develop ${SPACK_PATH}
+    git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
   else
     cd ${SPACK_PATH}
-    branch="develop_$(date +%s)"
-    git fetch --depth 1 origin develop:$branch
+    branch="${SPACK_REF}_$(date +%s)"
+    git fetch --depth 1 ${SPACK_REPO} ${SPACK_REF}:$branch
     git checkout $branch
     cd -
   fi
@@ -42,164 +45,21 @@ configure_python:
     - *get_spack
     - *patch_spack
 
-.concretize:
+include:
+  - gitlab/ci/concretize.yml
+
+radiuss_build_pipeline:
   tags:
     - shell
     - quartz
+  stage: pipeline-gen
   before_script:
     - date
     - . ${SPACK_PATH}/share/spack/setup-env.sh
     - cd spack-environments/${SYS_TYPE}/${TOOLCHAIN}
     - spack -d env activate .
     - cd -
+  script:
+      - spack -d ci start --cdash-token "${CDASH_AUTH_TOKEN}" --downstream-repo "${DOWNSTREAM_CI_REPO}" --branch-name "${CI_COMMIT_REF_NAME}" --commit-sha "${CI_COMMIT_SHA}"
   after_script:
     - date
-
-.concretize-alone:
-  extends: .concretize
-  stage: concretize-alone
-
-.concretize-group:
-  extends: .concretize
-  stage: concretize-group
-
-.concretize-all:
-  extends: .concretize
-  stage: concretize-all
-
-concretize_umpire:
-  extends: .concretize-alone
-  script:
-    - spack add umpire
-    - spack concretize
-
-concretize_raja:
-  extends: .concretize-alone
-  script:
-    - spack add raja
-    - spack concretize
-
-concretize_hypre:
-  extends: .concretize-alone
-  script:
-    - spack add hypre
-    - spack concretize
-
-concretize_mfem:
-  extends: .concretize-alone
-  script:
-    - spack add mfem
-    - spack concretize
-
-concretize_conduit:
-  extends: .concretize-alone
-  script:
-    - spack add conduit
-    - spack concretize
-
-concretize_sundials:
-  extends: .concretize-alone
-  script:
-    - spack add sundials
-    - spack concretize
-
-concretize_samrai:
-  extends: .concretize-alone
-  script:
-    - spack add samrai
-    - spack concretize
-
-concretize_xbraid:
-  extends: .concretize-alone
-  script:
-    - spack add xbraid
-    - spack concretize
-
-concretize_ascent:
-  extends: .concretize-alone
-  script:
-    - spack add ascent
-    - spack concretize
-
-concretize_zfp:
-  extends: .concretize-alone
-  script:
-    - spack add zfp
-    - spack concretize
-
-concretize_scr:
-  extends: .concretize-alone
-  script:
-    - spack add scr
-    - spack concretize
-
-concretize_visit:
-  extends: .concretize-alone
-  script:
-    - spack add visit
-    - spack concretize
-
-concretize_glvis:
-  extends: .concretize-alone
-  script:
-    - spack add glvis
-    - spack concretize
-
-concretize_caliper:
-  extends: .concretize-alone
-  script:
-    - spack add caliper
-    - spack concretize
-
-concretize_spindle:
-  extends: .concretize-alone
-  script:
-    - spack add spindle
-    - spack concretize
-
-concretize_flux-sched:
-  extends: .concretize-alone
-  script:
-    - spack add flux-sched
-    - spack concretize
-
-concretize_py-maestrowf:
-  extends: .concretize-alone
-  script:
-    - spack add py-maestrowf
-    - spack concretize
-
-concretize_math_physics:
-  extends: .concretize-group
-  script:
-    - spack add mfem hypre sundials samrai xbraid
-    - spack concretize
-  needs: [concretize_mfem, concretize_hypre, concretize_sundials, concretize_samrai, concretize_xbraid]
-
-concretize_data_visualization:
-  extends: .concretize-group
-  script:
-    - spack add conduit ascent zfp scr visit
-    - spack concretize
-  needs: [concretize_conduit, concretize_ascent, concretize_zfp, concretize_scr, concretize_visit]
-
-concretize_portability_memory:
-  extends: .concretize-group
-  script:
-    - spack add umpire raja
-    - spack concretize
-  needs: [concretize_umpire, concretize_raja]
-
-concretize_performances_workflow:
-  extends: .concretize-group
-  script:
-    - spack add caliper spindle flux-sched py-maestrowf
-    - spack concretize
-  needs: [concretize_caliper, concretize_spindle, concretize_flux-sched, concretize_py-maestrowf]
-
-concretize_radiuss:
-  extends: .concretize-all
-  script:
-    - spack add caliper spindle flux-sched py-maestrowf mfem hypre sundials samrai xbraid conduit ascent zfp scr visit umpire raja
-    - spack concretize
-  needs: [concretize_math_physics, concretize_data_visualization, concretize_portability_memory, concretize_performances_workflow]
