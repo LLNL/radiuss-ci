@@ -165,7 +165,7 @@ concretize_radiuss:
       - spack-environments/${SYS_TYPE}/${TOOLCHAIN}
 
 radiuss_build_pipeline:
-  extends: .spack_environments_rules
+  extends: .spack_pipelines_rules
   tags:
     - shell
     - quartz

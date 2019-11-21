@@ -51,6 +51,11 @@ configure_python:
     - changes:
       - spack-environments/**/*
     - if: '$SPACK_ENVIRONMENT_CI'
+    - if: '$TRIGGER_SPACK_PIPELINES'
+
+.spack_pipelines_rules:
+  rules:
+    - if: '$TRIGGER_SPACK_PIPELINES'
 
 include:
   - spack-environments/gitlab/ci.yml
