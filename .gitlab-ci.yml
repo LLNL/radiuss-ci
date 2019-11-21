@@ -45,21 +45,12 @@ configure_python:
     - *get_spack
     - *patch_spack
 
-include:
-  - gitlab/ci/concretize.yml
+# Defines the rules to run spack-environment CI
+.spack_environments_rules:
+  rules:
+    - changes:
+      - spack-environments/**/*
+    - if: '$SPACK_ENVIRONMENT_CI'
 
-radiuss_build_pipeline:
-  tags:
-    - shell
-    - quartz
-  stage: pipeline-gen
-  before_script:
-    - date
-    - . ${SPACK_PATH}/share/spack/setup-env.sh
-    - cd spack-environments/${SYS_TYPE}/${TOOLCHAIN}
-    - spack -d env activate .
-    - cd -
-  script:
-      - spack -d ci start --cdash-token "${CDASH_AUTH_TOKEN}" --downstream-repo "${DOWNSTREAM_CI_REPO}" --branch-name "${CI_COMMIT_REF_NAME}" --commit-sha "${CI_COMMIT_SHA}"
-  after_script:
-    - date
+include:
+  - spack-environments/gitlab/ci.yml

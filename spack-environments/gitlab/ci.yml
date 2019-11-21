@@ -1,4 +1,5 @@
 .concretize:
+  extends: .spack_environments_rules
   tags:
     - shell
     - quartz
