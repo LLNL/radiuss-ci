@@ -1,0 +1,61 @@
+##############################################################################
+# Copyright (c) 2016-19, Lawrence Livermore National Security, LLC and Umpire
+# project contributors. See the COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (MIT)
+##############################################################################
+
+variables:
+  SPACK_PATH: ${CI_BUILDS_DIR}/spack-radiuss
+  TOOLCHAIN: gcc_8_1_0
+  SPACK_REPO: ssh://git@czgitlab.llnl.gov:7999/spackpipelines/spack-test-pipeline.git
+  SPACK_REF: test-pipeline
+
+stages:
+  - environment
+  - concretize-alone
+  - concretize-group
+  - concretize-all
+  - pipeline-gen
+
+.get_spack: &get_spack |
+  if [[ ! -d ${SPACK_PATH} ]]
+  then
+    git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
+  else
+    cd ${SPACK_PATH}
+    branch="${SPACK_REF}_$(date +%s)"
+    git fetch --depth 1 ${SPACK_REPO} ${SPACK_REF}:$branch
+    git checkout $branch
+    cd -
+  fi
+
+.patch_spack: &patch_spack |
+  cd ${SPACK_PATH}
+  git apply ${CI_PROJECT_DIR}/patches/spack/user-scope.patch
+  git commit -am "Moving user scope in spack directory"
+  cd -
+
+configure_python:
+  tags:
+    - shell
+    - quartz
+  stage: environment
+  script:
+    - *get_spack
+    - *patch_spack
+
+# Defines the rules to run spack-environment CI
+.spack_environments_rules:
+  rules:
+    - changes:
+      - spack-environments/**/*
+    - if: '$SPACK_ENVIRONMENT_CI'
+    - if: '$TRIGGER_SPACK_PIPELINES'
+
+.spack_pipelines_rules:
+  rules:
+    - if: '$TRIGGER_SPACK_PIPELINES'
+
+include:
+  - spack-environments/gitlab/ci.yml
