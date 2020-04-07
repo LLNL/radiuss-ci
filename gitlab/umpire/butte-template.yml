@@ -1,0 +1,31 @@
+##############################################################################
+# Copyright (c) 2016-19, Lawrence Livermore National Security, LLC and Umpire
+# project contributors. See the COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (MIT)
+##############################################################################
+
+####
+# Shared configuration of jobs for butte
+.on_butte:
+  variables:
+  tags:
+    - shell
+    - butte
+  rules:
+    - if: '$UMPIRE_CI_BUTTE != "ON"' #run except if ...
+      when: never
+    - when: on_success
+  allow_failure: true
+
+.build_and_test_on_butte:
+  stage: b_build_and_test
+  extends: [.build_blueos_3_ppc64le_ib_script, .on_butte]
+  needs: ["start"]
+
+# Note: .build_and_test_on_butte_advanced inherits from
+# .build_and_test_on_butte and .advanced_pileline.
+# In particular, the rules section will be merged. Careful when changing rules.
+.build_and_test_on_butte_advanced:
+  extends: [.build_and_test_on_butte, .advanced_pipeline]
+  allow_failure: true
