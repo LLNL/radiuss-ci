@@ -3,6 +3,9 @@
 set -o errexit
 set -o nounset
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1
 
-cp ${DIR}/*.yml ${CI_PROJECT_DIR}
+for file in *.yml
+do
+    cp ${file} ${CI_PROJECT_DIR}/radiuss-${file}
+done
