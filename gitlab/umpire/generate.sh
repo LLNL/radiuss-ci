@@ -7,7 +7,7 @@ machine=${1:-""}
 machines="butte quartz lassen"
 
 # Build
-if [[ -z ${option} ]]
+if [[ -z ${machine} ]]
 then
     echo "Script needs one parameter: machine name"
 elif [[ ! ${machines} =~ (^|[[:space:]])${machine}($|[[:space:]]) ]]
