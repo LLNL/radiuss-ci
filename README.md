@@ -4,6 +4,8 @@ The RADIUSS project promotes and supports key High Performance Computing (HPC) o
 
 RADIUSS CI project aims at providing sensible default configurations and tools for GitLab CI.
 
+Access the [documentation](https://radiuss-ci.readthedocs.io/).
+
 ## Getting Started
 
 This project may be used as a submodule (for its tools) or remotely (for its configuration files).

@@ -25,7 +25,7 @@ Uberenv role
 Uberenv helps by doing the following:
 
 * Pulls a blessed version of Spack locally.
-* If you are on a known operating system (like TOSS3), we have defined compilers and system packages so you don't have to rebuild the world (CMake typically in <Project>).
+* If you are on a known operating system (like TOSS3), we have defined compilers and system packages so you don't have to rebuild the world, _e.g._ CMake, or MPI.
 * Overrides <Project> Spack packages with the local ones if any. (see ``scripts/uberenv/packages``).
 * Covers both dependencies and project build in one command.
 
