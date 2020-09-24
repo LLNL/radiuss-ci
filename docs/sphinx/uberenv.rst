@@ -6,6 +6,11 @@ Uberenv Guide
 
 This documents the usage of Uberenv for the developer. Indeed, uberenv can be used to generate custom host-config files, driven by a Spack spec. This host-config file will point to the dependencies installed with Spack, making the build process of the project straightforward.
 
+.. image:: images/UberenvWorkflow.png
+   :scale: 32 %
+   :alt: Uberenv is integrated into a project to drive Spack to build the dependencies and produces host-config files
+   :align: center
+
 Generating <Project> host-config files
 ======================================
 
