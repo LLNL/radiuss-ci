@@ -31,6 +31,32 @@ Uberenv helps by doing the following:
 
 Uberenv will create a directory ``uberenv_libs`` containing a Spack instance with the required <Project> dependencies installed. It then generates a host-config file (``<config_dependent_name>.cmake``) at the root of <Project> repository.
 
+Before to start
+---------------
+
+Machine specific configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Depending on the machine/system, <Project> may or may not provide a spack configuration allowing to use uberenv right away.
+
+Check in the machines/systems supported in ``scripts/uberenv/spack_configs``. Per machine, <Project> will provide ``compilers.yaml``, ``packages.yaml``, and ``config.yaml``. The latter being possibly shared with other machines/systems.
+
+Vetted specs
+^^^^^^^^^^^^
+
+Then, one can easily check what specs are tested in CI. For example, when looking for the gcc versions tested on quartz:
+
+.. code-block:: bash
+
+  git grep "SPEC" .gitlab/quartz-jobs.yml | grep "gcc"
+
+MacOS case
+^^^^^^^^^^
+
+It is not trivial to provide a universal configuration for MacOS.
+Instead, the developper will likely have to complete the ``packages.yaml`` file in order to adapt the location and version of externally installed dependencies.
+
+
 Using Uberenv to generate the host-config file
 ----------------------------------------------
 
@@ -41,21 +67,25 @@ Using Uberenv to generate the host-config file
 .. note::
   On LC machines, it is good practice to do the build step in parallel on a compute node. Here is an example command: ``srun -ppdebug -N1 --exclusive python scripts/uberenv/uberenv.py``
 
-Unless otherwise specified Spack will default to a compiler. It is recommended to specify which compiler to use: add the compiler spec to the ``--spec`` Uberenv command line option.
+Unless otherwise specified Spack will default to a compiler. It is recommended to specify which compiler to use: add the compiler spec to the ``--spec=`` Uberenv command line option.
 
 On blessed systems, compiler specs can be found in the Spack compiler files in our repository: ``scripts/uberenv/spack_configs/<system type>/compilers.yaml``.
 
-Some examples uberenv options:
+Some options
+^^^^^^^^^^^^
+
+We already explained ``--spec=`` above:
 
 * ``--spec=%clang@9.0.0``
 * ``--spec=%clang@8.0.1+cuda``
+
+The directory that will hold the Spack instance and the installations can also be customized with ``--prefix=``:
+
 * ``--prefix=<Path to uberenv build directory (defaults to ./uberenv_libs)>``
 
-Building dependencies can take a long time. If you already have a Spack instance you would like to reuse (in supplement of the local one managed by Uberenv), you can do so changing the uberenv command as follow:
+Building dependencies can take a long time. If you already have a Spack instance you would like to reuse (in supplement of the local one managed by Uberenv), you can do so with the ``--upstream=`` option:
 
-.. code-block:: bash
-
-  $ python scripts/uberenv/uberenv.py --upstream=<path_to_my_spack>/opt/spack
+* ``--upstream=<path_to_my_spack>/opt/spack ...``
 
 Using host-config files to build <Project>
 ------------------------------------------
