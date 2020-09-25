@@ -15,7 +15,7 @@ LLNL's RADIUSS project—Rapid Application Development via an Institutional Univ
    :caption: Shared Documentation
 
    uberenv
-
+   ci
 
 Indices and tables
 ==================
