@@ -16,7 +16,7 @@ All RADIUSS projects are open-source, and hosted on GitHub. In order to compleme
 Structure
 =========
 
-The default place for Gitlab CI configuration is ``.gitlab-ci.yml`` file, at the root of the project. Still, the configuration is split in logical blocks instead of having only one unique linear file. This is permitted by local ``includes`` feature in Gitlab CI, and all the included files are gathered in ``.gitlab``.
+The default place for Gitlab CI configuration is ``.gitlab-ci.yml`` file, at the root of the project. Still, the configuration is split in logical blocks instead of having only one unique linear file. This is permitted by local ``includes`` feature in Gitlab CI, and all the included files are gathered in ``.gitlab`` directory.
 
 .. code-block:: bash
 
@@ -28,7 +28,7 @@ The default place for Gitlab CI configuration is ``.gitlab-ci.yml`` file, at the
   quartz-jobs.yml
   quartz-templates.yml
 
-Machine names is a logical divider in the configuration of our CI: different machines allow to test on various hardware architecture and software stacks, they are identified with runner ``tags``.
+Machine names is a logical divider in the configuration of our CI: different machines allow to test on various hardware architectures and software stacks, they are identified with runner ``tags``.
 
 All jobs for a given machine: <machine>-jobs.yml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
