@@ -36,6 +36,9 @@ Uberenv helps by doing the following:
 
 Uberenv will create a directory ``uberenv_libs`` containing a Spack instance with the required <Project> dependencies installed. It then generates a host-config file (``<config_dependent_name>.cmake``) at the root of <Project> repository.
 
+.. note::
+  One common source of error when using Uberenv is that the ``uberenv_libs`` folder is out of date. To resolve, make sure this folder is deleted before running new scripts for the first time because this folder needs to be regenerated.
+
 Before to start
 ---------------
 
