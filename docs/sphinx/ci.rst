@@ -33,7 +33,7 @@ Machine names is a logical divider in the configuration of our CI: different mac
 All jobs for a given machine: <machine>-jobs.yml
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For each machine, *all the jobs* and only the jobs are gathered in ``<machine>-jobs.yml``. There, a job definition looks like:
+For each machine, build and test jobs are gathered in ``<machine>-jobs.yml``. There, a job definition looks like:
 
 .. code-block:: yaml
 
