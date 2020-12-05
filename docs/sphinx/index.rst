@@ -16,6 +16,7 @@ LLNL's RADIUSS project—Rapid Application Development via an Institutional Univ
 
    uberenv
    ci
+   templates
 
 Indices and tables
 ==================
