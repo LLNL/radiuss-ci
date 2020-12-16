@@ -10,14 +10,23 @@ RADIUSS CI is a sub project form the RADIUSS initiative focusing on sharing reso
 
 LLNL's RADIUSS project—Rapid Application Development via an Institutional Universal Software Stack—aims to broaden usage across LLNL and the open source community of a set of libraries and tools used for HPC scientific application development.
 
+Uberenv and CI Shared Documentation
+===================================
+
+In RADIUSS, we designed a streamlined process to build your project with its dependencies using Spack and Uberenv, and add a basic CI to test those builds in Gitlab.
+
+The main steps are:
+
+1. Get Uberenv. See :ref:`env`.
+2. Setup CI. See :ref:`ci`.
+3. Create build_and_test script.
+
 .. toctree::
    :maxdepth: 2
    :caption: Shared Documentation
 
-   getting_started
    uberenv
    ci
-   templates
 
 Indices and tables
 ==================

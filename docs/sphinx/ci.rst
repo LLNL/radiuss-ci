@@ -31,7 +31,7 @@ The default place for Gitlab CI configuration is ``.gitlab-ci.yml`` file, at the
 Machine names is a logical divider in the configuration of our CI: different machines allow to test on various hardware architectures and software stacks, they are identified with runner ``tags``.
 
 All jobs for a given machine: <machine>-jobs.yml
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------
 
 For each machine, build and test jobs are gathered in ``<machine>-jobs.yml``. There, a job definition looks like:
 
@@ -56,7 +56,7 @@ The goal is to use "inheritance" to share as much as possible, keeping the final
 So, what is ``.build_and_test_on_quartz``? It is defined in the corresponding ``<machine>-templates.yml``.
 
 Machine specific templates: <machine>-templates.yml
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------------------------
 
 .. code-block:: yaml
 
@@ -97,7 +97,7 @@ At this point, our job looks like this:
       - when: on_success
 
 Machine agnostic templates are left in .gitlab-ci.yml
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
 The remaining ``.build_toss_3_x86_64_ib_script`` is to be found in the root ``.gitlab-ci.yml`` because it describes properties for the job shared on all machines:
 
@@ -153,7 +153,7 @@ This capability is permitted by "pipeline triggers" feature in Gitlab, and illus
    :align: center
 
 Gitlab configuration for Multi-Project Testing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------------
 
 .. code-block:: yaml
 
@@ -184,14 +184,42 @@ The update mechanism relies on a small change in CHAI CI build script:
       extra_deps="${extra_deps} ^umpire@${umpire_version}"
   fi
 
+.. _templates:
 
+Gitlab CI template example
+==========================
 
+gitlab-ci.yml
+-------------
 
+.. literalinclude:: ../../ci_template/gitlab-ci.yml
+  :language: yaml
+  :lines: 8-
 
+quartz-templates.yml
+--------------------
 
+.. literalinclude:: ../../ci_template/quartz-templates.yml
+  :language: yaml
+  :lines: 8-
 
+quartz-jobs.yml
+---------------
 
+.. literalinclude:: ../../ci_template/quartz-jobs.yml
+  :language: yaml
+  :lines: 8-
 
+lassen-templates.yml
+--------------------
 
+.. literalinclude:: ../../ci_template/lassen-templates.yml
+  :language: yaml
+  :lines: 8-
 
+lassen-jobs.yml
+---------------
 
+.. literalinclude:: ../../ci_template/lassen-jobs.yml
+  :language: yaml
+  :lines: 8-
