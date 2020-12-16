@@ -14,6 +14,7 @@ LLNL's RADIUSS project—Rapid Application Development via an Institutional Univ
    :maxdepth: 2
    :caption: Shared Documentation
 
+   getting_started
    uberenv
    ci
    templates
