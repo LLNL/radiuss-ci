@@ -15,6 +15,8 @@ Uberenv and CI Shared Documentation
 
 In RADIUSS, we designed a streamlined process to build your project with its dependencies using Spack and Uberenv, and add a basic CI to test those builds in Gitlab.
 
+Before getting started, it is a good idea to read the `LC specific documentation for Gitlab <https://gitlab.llnl.gov>`_. In particular, the "Getting Started" and "Setup Mirroring" sub-pages *will help*.
+
 The main steps are:
 
 1. Get Uberenv. See :ref:`env`.
