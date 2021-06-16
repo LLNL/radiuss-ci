@@ -34,7 +34,7 @@ stages:
 
 #[get-spack--]
 get-spack:
-  extends: [.on-quartz, .has_project_name]
+  extends: [.on-quartz]
   stage: get-spack
   script:
     - .gitlab/get-spack
@@ -42,7 +42,7 @@ get-spack:
 
 #[rm-spack--]
 rm-spack:
-  extends: [.on-quartz, .has_project_name]
+  extends: [.on-quartz]
   stage: rm-spack
   script:
     - .gitlab/remove-spack
