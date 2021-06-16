@@ -11,7 +11,7 @@ stages:
   - concretize-all
 
 # Defines the rules to run spack-environment CI
-.spack_concretize_rules:
+.concretize_rules:
   rules:
     - changes:
       - spack-environments/**/*
@@ -19,7 +19,7 @@ stages:
     - if: '$TRIGGER_SPACK_PIPELINES'
 
 .concretize:
-  extends: .spack_concretize_rules
+  extends: .concretize_rules
   tags:
     - shell
     - quartz

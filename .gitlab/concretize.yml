@@ -6,7 +6,6 @@
 ##############################################################################
 
 concretize-on-quartz:
-  extends: [.on-quartz]
   stage: concretize-test
   variables:
     CHILD_SPACK_PATH: ${SPACK_PATH}
