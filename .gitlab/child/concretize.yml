@@ -1,12 +1,32 @@
+##############################################################################
+# Copyright (c) 2019-2021, Lawrence Livermore National Security, LLC and
+# RADIUSS project contributors. See the COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (MIT)
+##############################################################################
+
+stages:
+  - concretize-alone
+  - concretize-group
+  - concretize-all
+
+# Defines the rules to run spack-environment CI
+.spack_concretize_rules:
+  rules:
+    - changes:
+      - spack-environments/**/*
+    - if: '$SPACK_ENVIRONMENT_CI'
+    - if: '$TRIGGER_SPACK_PIPELINES'
+
 .concretize:
-  extends: .spack_environments_rules
+  extends: .spack_concretize_rules
   tags:
     - shell
     - quartz
   before_script:
     - date
-    - . ${SPACK_PATH}/share/spack/setup-env.sh
-    - cd spack-environments/${SYS_TYPE}/${TOOLCHAIN}
+    - . ${CHILD_SPACK_PATH}/share/spack/setup-env.sh
+    - cd spack-environments/radiuss-concretize
     - spack -d env activate .
     - cd -
   after_script:
@@ -162,20 +182,4 @@ concretize_radiuss:
   needs: [concretize_math_physics, concretize_data_visualization, concretize_portability_memory, concretize_performances_workflow]
   artifacts:
     paths:
-      - spack-environments/${SYS_TYPE}/${TOOLCHAIN}
-
-radiuss_build_pipeline:
-  extends: .spack_pipelines_rules
-  tags:
-    - shell
-    - quartz
-  stage: pipeline-gen
-  before_script:
-    - date
-    - . ${SPACK_PATH}/share/spack/setup-env.sh
-    - cp spack-environments/${SYS_TYPE}/${TOOLCHAIN}/* ./
-    - spack -d env activate .
-  script:
-    - spack -d ci start --cdash-token "${CDASH_AUTH_TOKEN}" --downstream-repo "${DOWNSTREAM_CI_REPO}" --branch-name "${CI_COMMIT_REF_NAME}" --commit-sha "${CI_COMMIT_SHA}"
-  after_script:
-    - date
+      - spack-environments/radiuss-concretize

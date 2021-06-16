@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+#[rm-spack--]
+if [[ ! -d ${SPACK_PARENT_DIR} ]]
+then
+  echo "Spack directory not found"
+else
+  rm -rf ${SPACK_PARENT_DIR}
+fi
+#[--rm-spack]

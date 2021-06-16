@@ -7,18 +7,8 @@
 
 spack:
   include:
-  - compilers.yaml
-  - packages.yaml
-
-  mirrors: { "mirror": "file:///usr/workspace/radiuss/spack-mirror" }
+  - ../radiuss/$SYS_TYPE/compilers.yaml
+  - ../radiuss/$SYS_TYPE/packages.yaml
 
   view: false
   concretization: separately
-
-  gitlab-ci:
-    mappings:
-    - match: ['os=rhel7']
-      runner-attributes:
-        tags: [shell, quartz]
-        variables: {}
-
