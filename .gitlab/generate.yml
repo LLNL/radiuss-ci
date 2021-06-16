@@ -14,8 +14,6 @@
     - if: '$CI_JOB_NAME == "rm-spack"'
       when: always
     - when: on_success
-  before_script:
-    - .gitlab/print-variables
 
 .no_project_name:
   rules:
@@ -39,6 +37,8 @@
 generate-on-quartz:
   extends: [.generate-pipeline, .on-quartz, .has_project_name]
   stage: generate-quartz
+  before_script:
+    - .gitlab/print-variables
 
 build-on-quartz:
   extends: [.has_project_name]
@@ -58,6 +58,8 @@ build-on-quartz:
 generate-on-lassen:
   extends: [.generate-pipeline, .on-lassen, .has_project_name]
   stage: generate-lassen
+  before_script:
+    - .gitlab/print-variables
 
 build-on-lassen:
   extends: [.has_project_name]
