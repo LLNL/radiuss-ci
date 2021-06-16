@@ -12,5 +12,3 @@ concretize-on-quartz:
   trigger:
     include: .gitlab/child/concretize.yml
     strategy: depend
-  needs: [generate-on-quartz]
-
