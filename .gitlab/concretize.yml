@@ -7,6 +7,11 @@
 
 concretize-on-quartz:
   stage: concretize-test
+  rules:
+    - changes:
+      - spack-environments/**/*
+    - if: '$SPACK_ENVIRONMENT_CI'
+    - if: '$TRIGGER_SPACK_PIPELINES'
   variables:
     CHILD_SPACK_PATH: ${SPACK_PATH}
   trigger:
