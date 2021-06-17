@@ -14,6 +14,7 @@ concretize-on-quartz:
     - if: '$TRIGGER_SPACK_PIPELINES'
   variables:
     CHILD_SPACK_PATH: ${SPACK_PATH}
+    CHILD_DEBUG: ${DEBUG}
   trigger:
     include: .gitlab/child/concretize.yml
     strategy: depend

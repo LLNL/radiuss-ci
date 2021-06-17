@@ -6,9 +6,12 @@
 ##############################################################################
 
 spack:
+  #[general--]
   include: [$SYS_TYPE]
   concretization: separately
   view: false
+  #[--general]
+  #[config-override--]
   config:
     install_tree:
       root: /usr/workspace/radiuss/install/radiuss-stack
@@ -19,13 +22,16 @@ spack:
     test_stage: $spack/.test_stage
     'build_stage:':
     - $spack/var/spack/stage
+  #[--config-override]
   mirrors:
     mirror: file:///usr/workspace/radiuss/mirrors/llnl-stack
+  #[definitions--]
   definitions:
   - compilers: ['%gcc@8.1.0', '%gcc@8.3.1', '%clang@10.0.0']
     when: env.get("SYS_TYPE", "") == "toss_3_x86_64_ib"
   - compilers: ['%xl@16.1.1.7']
     when: env.get("SYS_TYPE", "") == "blueos_3_ppc64le_ib_p9"
+  #[definitions--]
   - radiuss-projects:
     - mfem@4.2.0
     - hypre@2.20.0
@@ -68,31 +74,32 @@ spack:
     exclude:
     - ascent@0.7.0 %clang@10.0.0
     #- axom@0.5.0 ^conduit@0.7.1 %clang@10.0.0
+
   gitlab-ci:
     mappings:
+
       # quartz
+      # [runner-mapping--]
       - match:
         - target=broadwell
         runner-attributes:
-          variables:
-            ENV_DIR: ${CI_PROJECT_DIR}/jobs_scratch_dir/concrete_environment
           tags: [quartz, shell]
+      # [--runner-mapping]
           script:
           - . ${CHILD_SPACK_PATH}/share/spack/setup-env.sh
-          - spack cd -r && export CURRENT_SPACK_SHA=$(git rev-parse HEAD)
-          - cd ${ENV_DIR} && spack env activate --without-view .
+          - cd ${SPACK_CONCRETE_ENV_DIR} && spack env activate --without-view .
           - spack -d ci rebuild
+
       # lassen
       - match:
         - 'target=ppc64le:'
         runner-attributes:
-          variables:
-            ENV_DIR: ${CI_PROJECT_DIR}/jobs_scratch_dir/concrete_environment
           tags: [lassen, shell]
           script:
+          #[child-variables--]
           - . ${CHILD_SPACK_PATH}/share/spack/setup-env.sh
-          - spack cd -r && export CURRENT_SPACK_SHA=$(git rev-parse HEAD)
-          - cd ${ENV_DIR} && spack env activate --without-view .
+          #[--child-variables]
+          - cd ${SPACK_CONCRETE_ENV_DIR} && spack env activate --without-view .
           - spack -d ci rebuild
     service-job-attributes:
       tags: [quartz, shell]

@@ -12,7 +12,7 @@ variables:
   #[--create-unique-path]
   SPACK_REPO: git@github.com:spack/spack.git
   SPACK_REF: develop
-  DEBUG: "" # "-d"
+  DEBUG: "-d"
   PROJECT_NAME: ""
 
 # We only do one generation per stage because we found conflicts otherwise
