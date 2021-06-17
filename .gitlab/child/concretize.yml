@@ -25,7 +25,8 @@ stages:
     - quartz
   before_script:
     - date
-    - . ${CHILD_SPACK_PATH}/share/spack/setup-env.sh
+    - git clone ${CHILD_SPACK_PATH} --depth 1 local_spack
+    - . local_spack/share/spack/setup-env.sh
     - cd spack-environments/radiuss-concretize
     - spack ${CHILD_DEBUG} env activate .
     - cd -
