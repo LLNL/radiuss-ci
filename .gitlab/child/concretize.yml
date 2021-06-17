@@ -15,7 +15,7 @@ stages:
   rules:
     - changes:
       - spack-environments/**/*
-    - if: '$SPACK_ENVIRONMENT_CI'
+    - if: '$CONCRETIZATION_TESTING'
     - if: '$TRIGGER_SPACK_PIPELINES'
 
 .concretize:
