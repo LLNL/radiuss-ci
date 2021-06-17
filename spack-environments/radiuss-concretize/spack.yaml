@@ -7,6 +7,5 @@
 
 spack:
   include: [../radiuss/$SYS_TYPE]
-
   view: false
   concretization: separately
