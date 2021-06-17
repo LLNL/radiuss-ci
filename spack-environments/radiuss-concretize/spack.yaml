@@ -10,9 +10,3 @@ spack:
 
   view: false
   concretization: separately
-
-  config:
-    misc_cache: $spack/.misc_cache
-    test_stage: $spack/.test_stage
-    'build_stage:':
-    - $spack/var/spack/stage
