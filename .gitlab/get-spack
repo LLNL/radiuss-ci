@@ -6,7 +6,9 @@ set -e
 if [[ ! -d ${SPACK_PATH} ]]
 then
   mkdir -p ${SPACK_PATH}/..
+  # A shallow clone is enough, and much faster.
   git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
+  # We tag the commit so we can retrieve which one was used by a given pipeline.
   git tag ${CI_PIPELINE_ID}
 else
   cd ${SPACK_PATH}

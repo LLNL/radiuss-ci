@@ -29,6 +29,7 @@ The main steps are:
 
    uberenv
    ci
+   spack-ci
 
 Indices and tables
 ==================

@@ -40,19 +40,19 @@ generate-on-quartz:
   before_script:
     - .gitlab/print-variables
 
+#[send-variable-child--]
 build-on-quartz:
   extends: [.has_project_name]
   stage: build
-  #[send-variable-child--]
   variables:
     CHILD_SPACK_PATH: ${SPACK_PATH}
-  #[--send-variable-child]
   trigger:
     include:
       - artifact: "jobs_scratch_dir/pipeline.yml"
         job: generate-on-quartz
     strategy: depend
   needs: [generate-on-quartz]
+#[--send-variable-child]
 
 # lassen
 generate-on-lassen:

@@ -5,7 +5,9 @@
 # SPDX-License-Identifier: MIT
 ##############################################################################
 
+#[config-override--]
 packages::
+#[--config-override]
   all:
     permissions:
         read: world
