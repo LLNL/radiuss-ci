@@ -19,7 +19,7 @@ variables:
 #[one-generate-per-stage--]
 stages:
   - get-spack
-  #- concretize-test
+  - concretize-test
   - generate-quartz
   - generate-lassen
   - build
@@ -49,5 +49,5 @@ rm-spack:
 #[--rm-spack]
 
 include:
-  - .gitlab/concretize.yml
+  #- .gitlab/concretize.yml
   - .gitlab/generate.yml
