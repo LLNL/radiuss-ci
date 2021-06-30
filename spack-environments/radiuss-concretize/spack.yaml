@@ -6,19 +6,6 @@
 ###############################################################################
 
 spack:
-  include:
-  - compilers.yaml
-  - packages.yaml
-
-  mirrors: { "mirror": "file:///usr/workspace/radiuss/spack-mirror" }
-
+  include: [../radiuss/$SYS_TYPE]
   view: false
   concretization: separately
-
-  gitlab-ci:
-    mappings:
-    - match: ['os=rhel7']
-      runner-attributes:
-        tags: [shell, quartz]
-        variables: {}
-

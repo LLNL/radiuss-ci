@@ -1,0 +1,20 @@
+##############################################################################
+# Copyright (c) 2019-2021, Lawrence Livermore National Security, LLC and
+# RADIUSS project contributors. See the COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (MIT)
+##############################################################################
+
+concretize-on-quartz:
+  stage: concretize-test
+  rules:
+    - changes:
+      - spack-environments/**/*
+    - if: '$CONCRETIZATION_TESTING'
+    - if: '$TRIGGER_SPACK_PIPELINES'
+  variables:
+    CHILD_SPACK_PATH: ${SPACK_PATH}
+    CHILD_SPACK_DEBUG: ${SPACK_DEBUG}
+  trigger:
+    include: .gitlab/child/concretize.yml
+    strategy: depend
