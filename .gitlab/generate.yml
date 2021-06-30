@@ -25,7 +25,7 @@
   script:
     - . ${SPACK_PATH}/share/spack/setup-env.sh
     - spack env activate spack-environments/${PROJECT_NAME}
-    - spack ${DEBUG} ci generate
+    - spack ${SPACK_DEBUG} ci generate
         --artifacts-root "${CI_PROJECT_DIR}/jobs_scratch_dir"
         --output-file "${CI_PROJECT_DIR}/jobs_scratch_dir/pipeline.yml"
     - cp -r spack-environments/${PROJECT_NAME}/${SYS_TYPE} ${CI_PROJECT_DIR}/jobs_scratch_dir/concrete_environment/
