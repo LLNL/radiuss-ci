@@ -13,13 +13,13 @@ variables:
   SPACK_REPO: git@github.com:spack/spack.git
   SPACK_REF: develop
   DEBUG: "-d"
-  PROJECT_NAME: ""
+  PROJECT_NAME: "radiuss"
 
 # We only do one generation per stage because we found conflicts otherwise
 #[one-generate-per-stage--]
 stages:
   - get-spack
-  - concretize-test
+  #- concretize-test
   - generate-quartz
   - generate-lassen
   - build

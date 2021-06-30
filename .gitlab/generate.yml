@@ -24,7 +24,7 @@
 .generate-pipeline:
   script:
     - . ${SPACK_PATH}/share/spack/setup-env.sh
-    - spack env activate ${PROJECT_NAME}
+    - spack env activate spack-environments/${PROJECT_NAME}
     - spack ${DEBUG} ci generate
         --artifacts-root "${CI_PROJECT_DIR}/jobs_scratch_dir"
         --output-file "${CI_PROJECT_DIR}/jobs_scratch_dir/pipeline.yml"
