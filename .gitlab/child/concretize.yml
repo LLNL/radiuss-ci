@@ -27,7 +27,7 @@ stages:
     - date
     - git clone ${CHILD_SPACK_PATH} --depth 1 local_spack
     - . local_spack/share/spack/setup-env.sh
-    - cd spack-environments/radiuss-concretize
+    - cd spack-environments/empty
     - spack ${CHILD_SPACK_DEBUG} env activate .
     - cd -
   after_script:
@@ -186,4 +186,4 @@ concretize_radiuss:
   needs: [concretize_math_physics, concretize_data_visualization, concretize_portability_memory, concretize_performances_workflow]
   artifacts:
     paths:
-      - spack-environments/radiuss-concretize
+      - spack-environments/empty
