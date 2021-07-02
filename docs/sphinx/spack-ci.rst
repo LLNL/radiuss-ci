@@ -82,6 +82,38 @@ The important thing to note here is that we need to change the variable name to
 pass it to the child pipeline. This has been
 `reported to GitLab <https://gitlab.com/gitlab-org/gitlab/-/issues/213729>`_.
 
+Managing the GPG key
+--------------------
+
+One of the first blocking point will be GPG key management.
+
+In order to prevent Spack from registering the key again and again and since
+the key already exists in Spack, the workaround is to point the variable
+``SPACK_GNUPGHOME`` to the existing location. Spack won' try to register the
+key if this variable is already set.
+
+--------
+
+.. raw:: html
+
+   <details>
+   <summary><a>More about this issue.</a></summary>
+   <br>
+   Spack pipeline feature was designed to work with jobs in containers, isolated
+   from one another. We are breaking this assumption by using a unique Spack
+   instance on the shared file system.
+   <br>
+   <br>
+   Each build jobs will attempt to register a GPG key concurrently, but using the
+   same Spack instance. This will cause a race condition and only one job will
+   succeed.
+
+.. raw:: html
+
+   </details>
+
+--------
+
 
 Only generate one pipeline per stage
 ------------------------------------
@@ -98,8 +130,8 @@ at the same time.
 .. raw:: html
 
    <details>
-   <summary><a>Only generate one pipeline per stage</a></summary>
-
+   <summary><a>More about this issue.</a></summary>
+   <br>
    We generate one pipeline per machine. The file system, where the unique
    instance of Spack lives, is shared among the machines. This is why we need
    to sequentially generate the pipelines. We may instead choose to have two
@@ -122,16 +154,16 @@ Configuring the environment
 There are several things to think of when configuring a Spack environment for
 CI on a cluster.
 
-Isolate the environment
------------------------
+Isolate spack configuration
+---------------------------
 
-One annoying thing we have to deal with is making sure the environment (in
-particular the configuration files) is isolated. In practice, we intend to
-workaround the user scope of configuration, as we want our pipeline to behave
-in a deterministic manner whoever triggered it.
+We need to make sure the environment (in particular the configuration files) is
+isolated. In practice it implies to workaround the user scope of configuration,
+as we want our pipeline to behave in a deterministic manner whoever triggers
+it.
 
-We need to make sure that the environment is the only place where the
-configuration is defined, and override everything else.
+The most robust way to do so is to make sure that the environment is the only
+place where the configuration is defined, and override everything else.
 
 .. note::
    We use ``include`` to keep things clear and split the config in separate
