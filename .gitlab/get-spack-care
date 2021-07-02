@@ -1,0 +1,29 @@
+#!/bin/bash
+checkout() {
+  cd ${SPACK_PATH}
+  git fetch origin pull/19736/head:feature/allow-untested-cuda-versions
+  git checkout 1c92d832b6eefaf2cf1d053ff621ddd44de7606e
+  # We tag the commit so we can retrieve which one was used by a given pipeline.
+  git tag ${CI_PIPELINE_ID}
+  cd -
+}
+
+set -e
+
+#[get-spack--]
+if [[ ! -d ${SPACK_PATH} ]]
+then
+  mkdir -p ${SPACK_PATH}/..
+  git clone ${SPACK_REPO} ${SPACK_PATH}
+  checkout
+else
+  checkout
+  #git checkout -b temp
+  #git branch -D feature/allow-untested-cuda-versions
+  #git fetch --depth 1 ${SPACK_REPO} ${SPACK_REF}:${SPACK_REF}
+  #git checkout ${SPACK_REF}
+  #git tag ${CI_PIPELINE_ID}
+  #git branch -D temp
+  #cd -
+fi
+#[--get-spack]

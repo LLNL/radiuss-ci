@@ -22,7 +22,7 @@ stages:
   extends: .concretize_rules
   tags:
     - shell
-    - quartz
+    - lassen
   before_script:
     - date
     - git clone ${CHILD_SPACK_PATH} --depth 1 local_spack

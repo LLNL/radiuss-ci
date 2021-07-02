@@ -58,12 +58,10 @@ spack:
 
     mappings:
       ## quartz
-      ## [runner-mapping--]
       #- match:
       #  - target=broadwell
       #  runner-attributes:
       #    tags: [quartz, shell]
-      ## [--runner-mapping]
 
       # lassen
       - match:
