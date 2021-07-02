@@ -18,12 +18,12 @@ variables:
 # We only do one generation per stage because we found conflicts otherwise
 #[one-generate-per-stage--]
 stages:
-  - get-spack
+  - first
   - concretize-test
   - generate-quartz
   - generate-lassen
   - build
-  - rm-spack
+  - last
 #[--one-generate-per-stage]
 
 .on-quartz:
@@ -35,7 +35,7 @@ stages:
 #[get-spack--]
 get-spack:
   extends: [.on-quartz]
-  stage: get-spack
+  stage: first
   script:
     - .gitlab/get-spack
 #[--get-spack]
@@ -43,10 +43,19 @@ get-spack:
 #[rm-spack--]
 rm-spack:
   extends: [.on-quartz]
-  stage: rm-spack
+  stage: last
   script:
     - .gitlab/remove-spack
 #[--rm-spack]
+
+# Ugly hack to allow someone else to write in the install dir.
+# The issue is that .spack-db/index.json and ohers have permissions restricted
+# to the owner.
+fix-permissions:
+  extends: [.on-quartz]
+  stage: last
+  script:
+    - chmod -R g+rwX /usr/workspace/radiuss/install/radiuss-stack/spack_path_placeholder/spack_path_placeholder/spack_path_placeholder/spack_path_pla/.spack-db
 
 include:
   #- .gitlab/concretize.yml
