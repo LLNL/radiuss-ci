@@ -6,16 +6,24 @@
 Welcome to RadiussCI's documentation!
 =====================================
 
-RADIUSS CI is a sub project form the RADIUSS initiative focusing on sharing resource and documentation on Continuous Integration among RADIUSS projects.
+RADIUSS CI is a sub project form the RADIUSS initiative focusing on sharing
+resource and documentation on Continuous Integration among RADIUSS projects.
 
-LLNL's RADIUSS project—Rapid Application Development via an Institutional Universal Software Stack—aims to broaden usage across LLNL and the open source community of a set of libraries and tools used for HPC scientific application development.
+LLNL's RADIUSS project (Rapid Application Development via an Institutional
+Universal Software Stack) aims to broaden usage across LLNL and the open source
+community of a set of libraries and tools used for HPC scientific application
+development.
 
 Uberenv and CI Shared Documentation
 ===================================
 
-In RADIUSS, we designed a streamlined process to build your project with its dependencies using Spack and Uberenv, and add a basic CI to test those builds in Gitlab.
+In RADIUSS, we designed a streamlined process to build your project with its
+dependencies using Spack and Uberenv, and add a basic CI to test those builds
+in Gitlab.
 
-Before getting started, it is a good idea to read the `LC specific documentation for Gitlab <https://gitlab.llnl.gov>`_. In particular, the "Getting Started" and "Setup Mirroring" sub-pages *will help*.
+Before getting started, it is a good idea to read the `LC specific
+documentation for Gitlab <https://gitlab.llnl.gov>`_. In particular, the
+"Getting Started" and "Setup Mirroring" sub-pages *will help*.
 
 The main steps are:
 
