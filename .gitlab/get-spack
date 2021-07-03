@@ -1,21 +1,43 @@
 #!/bin/bash
+#
+# SPACK_SHA, if present, *might* be in a PR branch so is retrieved differently
 
 set -e
+
+checkout() {
+  git fetch --depth 1 ${SPACK_REPO} $1:$1
+  git checkout $1
+
+  # We tag the commit so we can retrieve which one was used by a given pipeline.
+  git tag ${CI_PIPELINE_ID}
+}
+
+clonespack() {
+  if [ "${SPACK_SHA}" ]
+  then
+    # The SHA could be from a PR so get a full clone and fetch explicitly
+    git clone ${SPACK_REPO} ${SPACK_PATH}
+    cd ${SPACK_PATH}
+    checkout ${SPACK_SHA}
+    cd -
+  else
+    # A shallow clone is enough, and much faster.
+    git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
+    # Tag the commit so we can retrieve which one was used by a given pipeline.
+    git tag ${CI_PIPELINE_ID}
+  fi
+}
 
 #[get-spack--]
 if [[ ! -d ${SPACK_PATH} ]]
 then
   mkdir -p ${SPACK_PATH}/..
-  # A shallow clone is enough, and much faster.
-  git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
-  # We tag the commit so we can retrieve which one was used by a given pipeline.
-  git tag ${CI_PIPELINE_ID}
+  clonespack
 else
   cd ${SPACK_PATH}
   git checkout -b temp
   git branch -D ${SPACK_REF}
-  git fetch --depth 1 ${SPACK_REPO} ${SPACK_REF}:${SPACK_REF}
-  git checkout ${SPACK_REF}
+  checkout ${SPACK_REF}
   git tag ${CI_PIPELINE_ID}
   git branch -D temp
   cd -

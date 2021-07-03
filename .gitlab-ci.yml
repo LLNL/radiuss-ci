@@ -11,7 +11,8 @@ variables:
   SPACK_PATH: ${CI_BUILDS_DIR}/llnl-stack-${CI_COMMIT_SHORT_SHA}/spack
   #[--create-unique-path]
   SPACK_REPO: https://github.com/spack/spack.git
-  SPACK_REF: 1c92d832b6eefaf2cf1d053ff621ddd44de7606e
+  SPACK_REF: devlop
+  SPACK_SHA: 1c92d832b6eefaf2cf1d053ff621ddd44de7606e
   SPACK_DEBUG: "-d"
   PROJECT_NAME: "care"
 
