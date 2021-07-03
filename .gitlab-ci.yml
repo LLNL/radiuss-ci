@@ -21,20 +21,20 @@ stages:
   - get-spack
   - concretize-test
   - generate-lassen
-  - generate-quartz
+  #- generate-quartz
   - build
   - rm-spack
 #[--one-generate-per-stage]
 
-.on-quartz:
-  tags: [shell, quartz]
+#.on-quartz:
+#  tags: [shell, quartz]
 
 .on-lassen:
   tags: [shell, lassen]
 
 #[get-spack--]
 get-spack:
-  extends: [.on-quartz]
+  extends: [.on-lassen]  # [.on-quartz]
   stage: get-spack
   script:
     - .gitlab/get-spack
@@ -42,7 +42,7 @@ get-spack:
 
 #[rm-spack--]
 rm-spack:
-  extends: [.on-quartz]
+  extends: [.on-lassen]  # [.on-quartz]
   stage: rm-spack
   script:
     - .gitlab/remove-spack

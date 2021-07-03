@@ -57,11 +57,11 @@ spack:
     - spack -d ci rebuild
 
     mappings:
-      # quartz
-      - match:
-        - target=broadwell
-        runner-attributes:
-          tags: [quartz, shell]
+      ## quartz
+      #- match:
+      #  - target=broadwell
+      #  runner-attributes:
+      #    tags: [quartz, shell]
 
       # lassen
       - match:
