@@ -11,17 +11,17 @@ variables:
   SPACK_PATH: ${CI_BUILDS_DIR}/llnl-stack-${CI_COMMIT_SHORT_SHA}/spack
   #[--create-unique-path]
   SPACK_REPO: https://github.com/spack/spack.git
-  SPACK_REF: develop
+  SPACK_REF: 1c92d832b6eefaf2cf1d053ff621ddd44de7606e
   SPACK_DEBUG: "-d"
-  PROJECT_NAME: "radiuss"
+  PROJECT_NAME: "care"
 
 # We only do one generation per stage because we found conflicts otherwise
 #[one-generate-per-stage--]
 stages:
   - get-spack
   - concretize-test
-  - generate-quartz
   - generate-lassen
+  - generate-quartz
   - build
   - rm-spack
 #[--one-generate-per-stage]
