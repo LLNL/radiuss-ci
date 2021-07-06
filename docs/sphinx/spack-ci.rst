@@ -85,12 +85,30 @@ pass it to the child pipeline. This has been
 Managing the GPG key
 --------------------
 
-One of the first blocking point will be GPG key management.
+One of the first blocking point while attempting to share a single Spack
+instance will be GPG key management.
 
-In order to prevent Spack from registering the key again and again and since
-the key already exists in Spack, the workaround is to point the variable
-``SPACK_GNUPGHOME`` to the existing location. Spack won' try to register the
-key if this variable is already set.
+In the general case each build jobs will register the mirror key, which will
+result in deadlocks in our case. We can instead register the key ahead of time.
+
+We will produce a GPG key using an instance of Spack, and then create a back-up
+location, so that we can use it for any spack instance we create in the CI
+context. This is already detailed in `spack mirror/build cache tutorial
+<https://spack-tutorial.readthedocs.io/en/latest/tutorial_binary_cache.html>`_.
+
+.. code-block:: bash
+
+  $ spack gpg create "My Name" "<my.email@my.domain.com>"
+  gpg: key 070F30B4CDF253A9 marked as ultimately trusted
+  gpg: directory '/home/spack/spack/opt/spack/gpg/openpgp-revocs.d' created
+  gpg: revocation certificate stored as '/home/spack/spack/opt/spack/gpg/openpgp-revocs.d/ABC74A4103675F76561A607E070F30B4CDF253A9.rev'
+  $ mkdir ~/private_gpg_backup
+  $ cp ~/spack/opt/spack/gpg/*.gpg ~/private_gpg_backup
+  $ cp ~/spack/opt/spack/gpg/pubring.* ~/mirror
+
+Then we simply need to point the variable ``SPACK_GNUPGHOME`` to the location
+where the key is stored. Spack won't try to register the key if this variable
+is already set.
 
 --------
 
@@ -99,14 +117,14 @@ key if this variable is already set.
    <details>
    <summary><a>More about this issue.</a></summary>
    <br>
-   Spack pipeline feature was designed to work with jobs in containers, isolated
-   from one another. We are breaking this assumption by using a unique Spack
-   instance on the shared file system.
+   Spack pipeline feature was designed to work with jobs in containers,
+   isolated from one another. We are breaking this assumption by using a unique
+   Spack instance on the shared file system.
    <br>
    <br>
-   Each build jobs will attempt to register a GPG key concurrently, but using the
-   same Spack instance. This will cause a race condition and only one job will
-   succeed.
+   Each build jobs will attempt to register a GPG key concurrently, but using
+   the same Spack instance. One of the job will create a lock that will cause
+   all the others to fail.
 
 .. raw:: html
 
