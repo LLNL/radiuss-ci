@@ -6,14 +6,11 @@
 ##############################################################################
 
 spack:
-  #[general--]
   include:
   - ../radiuss/$SYS_TYPE
   concretization: separately
   view: false
-  #[--general]
 
-  #[config-override--]
   config:
     install_tree:
       root: /usr/workspace/radiuss/install/care-stack
@@ -24,30 +21,18 @@ spack:
     test_stage: $spack/.test_stage
     'build_stage:':
     - $spack/var/spack/stage
-  #[--config-override]
 
   mirrors:
     mirror: file:///usr/workspace/radiuss/mirrors/llnl-stack
 
-  #[definitions--]
   definitions:
-  - compilers: [] # ['%gcc@8.1.0', '%gcc@8.3.1', '%clang@10.0.0']
-    when: env.get("SYS_TYPE", "") == "toss_3_x86_64_ib"
   - compilers: ['%gcc@8.3.1'] # ['%xl@16.1.1.7']
-    when: env.get("SYS_TYPE", "") == "blueos_3_ppc64le_ib_p9"
-  #[definitions--]
-  - projects:
-    when: env.get("SYS_TYPE", "") == "toss_3_x86_64_ib"
   - projects:
     - care+cuda cuda_arch=70 +allow-unsupported-compilers ^cuda@10.1.168 ^cmake@3.14.5
-    when: env.get("SYS_TYPE", "") == "blueos_3_ppc64le_ib_p9"
-  - dependencies: []
-    #- hdf5@1.8.21~shared #axom requires shared variant
-  #[--definitions]
 
   specs:
   - matrix:
-    - [$projects, $dependencies]
+    - [$projects]
     - [$compilers]
 
   gitlab-ci:
@@ -57,12 +42,6 @@ spack:
     - spack -d ci rebuild
 
     mappings:
-      ## quartz
-      #- match:
-      #  - target=broadwell
-      #  runner-attributes:
-      #    tags: [quartz, shell]
-
       # lassen
       - match:
         - 'target=ppc64le:'
