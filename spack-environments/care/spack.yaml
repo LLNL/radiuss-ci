@@ -6,11 +6,9 @@
 ##############################################################################
 
 spack:
-  include:
-  - ../radiuss/$SYS_TYPE
+  include: [$SYS_TYPE]
   concretization: separately
   view: false
-
   config:
     install_tree:
       root: /usr/workspace/radiuss/install/care-stack
@@ -24,17 +22,16 @@ spack:
 
   mirrors:
     mirror: file:///usr/workspace/radiuss/mirrors/llnl-stack
-
   definitions:
   - compilers: ['%gcc@8.3.1'] # ['%xl@16.1.1.7']
   - projects:
-    - care+cuda cuda_arch=70 +allow-unsupported-compilers ^cuda@10.1.168 ^cmake@3.14.5
+    - care@develop +cuda cuda_arch=70 +allow-unsupported-compilers ^cuda@10.1.168
+      ^cmake@3.14.5
 
   specs:
   - matrix:
     - [$projects]
     - [$compilers]
-
   gitlab-ci:
     script:
     - . ${CHILD_SPACK_PATH}/share/spack/setup-env.sh
@@ -47,7 +44,6 @@ spack:
         - 'target=ppc64le:'
         runner-attributes:
           tags: [lassen, shell]
-
     service-job-attributes:
       tags: [lassen, shell]
       before_script:
