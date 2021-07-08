@@ -4,42 +4,47 @@
 
 set -e
 
-checkout() {
-  git fetch --depth 1 ${SPACK_REPO} $1:$1
-  git checkout $1
+# Check necessary variables
+spack_branch=${SPACK_REF:-""}
+spack_branch=${SPACK_REPO:-""}
 
-  # We tag the commit so we can retrieve which one was used by a given pipeline.
-  git tag ${CI_PIPELINE_ID}
+usage() {
+  echo " $0 needs either a branch or a hash."
+  echo " Use \$SPACK_REF to specify it."
+  echo ""
+  echo " $0 needs a repository url."
+  echo " Use \$SPACK_REPO to specify it."
 }
 
-clonespack() {
-  if [ "${SPACK_SHA}" ]
-  then
-    # The SHA could be from a PR so get a full clone and fetch explicitly
-    git clone ${SPACK_REPO} ${SPACK_PATH}
-    cd ${SPACK_PATH}
-    checkout ${SPACK_SHA}
-    cd -
-  else
-    # A shallow clone is enough, and much faster.
-    git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
-    # Tag the commit so we can retrieve which one was used by a given pipeline.
-    git tag ${CI_PIPELINE_ID}
-  fi
-}
+if [[ -z ${spack_ref} ]]; then
+  echo "[ERROR] No branch or hash are defined in \$SPACK_REF."
+  usage
+fi
+
+if [[ -z ${spack_repo} ]]; then
+  echo "[ERROR] No repository defined in \$SPACK_REPO."
+  usage
+fi
 
 #[get-spack--]
+# Create a new repo if not present, and prepare for fetch
 if [[ ! -d ${SPACK_PATH} ]]
 then
-  mkdir -p ${SPACK_PATH}/..
-  clonespack
-else
+  mkdir -p ${SPACK_PATH}
   cd ${SPACK_PATH}
-  git checkout -b temp
-  git branch -D ${SPACK_REF}
-  checkout ${SPACK_REF}
-  git tag ${CI_PIPELINE_ID}
-  git branch -D temp
-  cd -
+  git init
+  git remote add origin ${SPACK_REPO}
 fi
+
+# Go to the repo.
+cd ${SPACK_PATH}
+
+# Fetch the reference.
+git fetch --depth 1 ${spack_ref}
+
+# Checkout the reference.
+git checkout FETCH_HEAD
+
+# Tag the commit with current pipeline ID.
+git tag ${CI_PIPELINE_ID}
 #[--get-spack]
