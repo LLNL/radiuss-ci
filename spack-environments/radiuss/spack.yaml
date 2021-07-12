@@ -43,7 +43,7 @@ spack:
     - py-maestrowf@1.1.8
     - conduit@0.7.1
     - zfp@0.5.5
-    - axom@0.5.0 ^conduit@0.7.1
+    - axom@develop ^conduit@0.7.1
     - caliper@2.5.0 ~libdw
     - caliper@2.5.0 ~libdw ~papi
     #- ascent@0.7.0 #ascent requires vtk-m and vtk-h, which fail to build
