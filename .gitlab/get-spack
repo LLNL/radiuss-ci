@@ -5,8 +5,8 @@
 set -e
 
 # Check necessary variables
-spack_branch=${SPACK_REF:-""}
-spack_branch=${SPACK_REPO:-""}
+spack_ref=${SPACK_REF:-""}
+spack_repo=${SPACK_REPO:-""}
 
 usage() {
   echo " $0 needs either a branch or a hash."
@@ -16,14 +16,20 @@ usage() {
   echo " Use \$SPACK_REPO to specify it."
 }
 
-if [[ -z ${spack_ref} ]]; then
+if [[ -z ${spack_ref} ]]
+then
   echo "[ERROR] No branch or hash are defined in \$SPACK_REF."
   usage
+else
+  echo "Using branch or hash defined in \$SPACK_REF ($SPACK_REF)."
 fi
 
-if [[ -z ${spack_repo} ]]; then
+if [[ -z ${spack_repo} ]]
+then
   echo "[ERROR] No repository defined in \$SPACK_REPO."
   usage
+else
+  echo "Using repository defined in \$SPACK_REPO ($SPACK_REPO)."
 fi
 
 #[get-spack--]
@@ -40,7 +46,7 @@ fi
 cd ${SPACK_PATH}
 
 # Fetch the reference.
-git fetch --depth 1 ${spack_ref}
+git fetch --depth 1 ${SPACK_REF}
 
 # Checkout the reference.
 git checkout FETCH_HEAD
