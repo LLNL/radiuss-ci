@@ -24,7 +24,8 @@
 .generate-pipeline:
   script:
     - . ${SPACK_PATH}/share/spack/setup-env.sh
-    - spack --version
+    #- spack --version
+    - echo $_spack_share_dir
     - cd spack-environments/${PROJECT_NAME}
     - spack ${SPACK_DEBUG} env activate --without-view .
     - spack ${SPACK_DEBUG} ci generate
