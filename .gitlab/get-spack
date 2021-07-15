@@ -37,19 +37,28 @@ fi
 if [[ ! -d ${SPACK_PATH} ]]
 then
   mkdir -p ${SPACK_PATH}
+
+  # Check if the reference is a hash *before* cloning
+  curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/spack/spack/commits/${SPACK_REF} | python -c "import sys, json; print(json.load(sys.stdin)['sha'])" > out-${SPACK_REF}.$$ || error=1
+  sha=`cat out-${SPACK_REF}.$$`
+  if [[ "$sha" == "${SPACK_REF}" ]]
+  then
+    # A commit was provided, which may not be on the develop branch
+    git clone ${SPACK_REPO} ${SPACK_PATH}
+    cd ${SPACK_PATH}
+    git fetch --depth 1 ${SPACK_REPO} ${SPACK_REF}:${SPACK_REF}
+  else
+    # A branch was provided so perform a faster shallow clone
+    git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
+    cd ${SPACK_PATH}
+  fi
+else
   cd ${SPACK_PATH}
-  git init
-  git remote add origin ${SPACK_REPO}
+  git fetch --depth 1 ${SPACK_REF}
 fi
 
-# Go to the repo.
-cd ${SPACK_PATH}
-
-# Fetch the reference.
-git fetch --depth 1 ${SPACK_REF}
-
-# Checkout the reference.
-git checkout FETCH_HEAD
+# Check out the reference
+git checkout ${SPACK_REF}
 
 # Tag the commit with current pipeline ID.
 git tag ${CI_PIPELINE_ID}
