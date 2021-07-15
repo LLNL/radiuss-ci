@@ -25,6 +25,9 @@ spack:
   definitions:
   - compilers: ['%gcc@8.3.1'] # ['%xl@16.1.1.7']
   - projects:
+    - umpire@5.0.0
+    - raja@main
+    - chai+enable_pick@2.3.0
     - care@develop +cuda cuda_arch=70 +allow-unsupported-compilers ^cuda@10.1.168
       ^cmake@3.14.5
 
