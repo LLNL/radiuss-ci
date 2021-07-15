@@ -16,14 +16,20 @@ usage() {
   echo " Use \$SPACK_REPO to specify it."
 }
 
-if [[ -z ${spack_ref} ]]; then
+if [[ -z ${spack_ref} ]]
+then
   echo "[ERROR] No branch or hash are defined in \$SPACK_REF."
   usage
+else
+  echo "Using branch or hash defined in \$SPACK_REF ($SPACK_REF)."
 fi
 
-if [[ -z ${spack_repo} ]]; then
+if [[ -z ${spack_repo} ]]
+then
   echo "[ERROR] No repository defined in \$SPACK_REPO."
   usage
+else
+  echo "Using repository defined in \$SPACK_REPO ($SPACK_REPO)."
 fi
 
 #[get-spack--]
@@ -31,6 +37,22 @@ fi
 if [[ ! -d ${SPACK_PATH} ]]
 then
   mkdir -p ${SPACK_PATH}
+
+  # Check if the reference is a hash *before* cloning
+  curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/spack/spack/commits/${SPACK_REF} | python -c "import sys, json; print(json.load(sys.stdin)['sha'])" > out-${SPACK_REF}.$$ || error=1
+  sha=`cat out-${SPACK_REF}.$$`
+  if [[ "$sha" == "${SPACK_REF}" ]]
+  then
+    # A commit was provided, which may not be on the develop branch
+    git clone ${SPACK_REPO} ${SPACK_PATH}
+    cd ${SPACK_PATH}
+    git fetch --depth 1 ${SPACK_REPO} ${SPACK_REF}:${SPACK_REF}
+  else
+    # A branch was provided so perform a faster shallow clone
+    git clone ${SPACK_REPO} --depth 1 --branch ${SPACK_REF} ${SPACK_PATH}
+    cd ${SPACK_PATH}
+  fi
+else
   cd ${SPACK_PATH}
   git init
   git remote add origin ${spack_repo}
