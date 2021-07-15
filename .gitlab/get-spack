@@ -54,11 +54,18 @@ then
   fi
 else
   cd ${SPACK_PATH}
-  git fetch --depth 1 ${SPACK_REF}
+  git init
+  git remote add origin ${spack_repo}
 fi
 
-# Check out the reference
-git checkout ${SPACK_REF}
+# Go to the repo.
+cd ${SPACK_PATH}
+
+# Fetch the reference.
+git fetch --depth 1 origin ${spack_ref}
+
+# Checkout the reference.
+git checkout FETCH_HEAD
 
 # Tag the commit with current pipeline ID.
 git tag ${CI_PIPELINE_ID}
