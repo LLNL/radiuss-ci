@@ -20,16 +20,19 @@ spack:
     'build_stage:':
     - $spack/var/spack/stage
 
+  packages:
+    all:
+      variants: +cuda cuda_arch=70 +allow-unsupported-compilers
+
   mirrors:
     mirror: file:///usr/workspace/radiuss/mirrors/llnl-stack
   definitions:
   - compilers: ['%gcc@8.3.1'] # ['%xl@16.1.1.7']
   - projects:
-    - umpire@5.0.0
-    - raja@main
-    - chai+enable_pick@2.3.0
-    - care@develop +cuda cuda_arch=70 +allow-unsupported-compilers ^cuda@10.1.168
-      ^cmake@3.14.5
+    - umpire@5.0.0~shared ^cmake@3.14.5 ^cuda@10.1.168
+    - raja@main ^cmake@3.14.5 ^cuda@10.1.168
+    - chai+enable_pick@2.3.0 ^cmake@3.14.5 ^cuda@10.1.168
+    - care@develop ^cmake@3.14.5 ^cuda@10.1.168
 
   specs:
   - matrix:
