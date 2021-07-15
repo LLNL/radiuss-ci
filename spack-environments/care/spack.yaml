@@ -33,6 +33,8 @@ spack:
     - raja@main ^cmake@3.14.5 ^cuda@10.1.168
     - chai+enable_pick@2.3.1 ^cmake@3.14.5 ^cuda@10.1.168 ^umpire@5.0.0~shared
     - care@develop ^cmake@3.14.5 ^cuda@10.1.168 ^umpire~shared ^raja~openmp ^chai~shared
+    #- raja@develop ^cmake@3.14.5 ^camp@master
+    - raja@develop ^cmake@3.14.5
 
   specs:
   - matrix:
