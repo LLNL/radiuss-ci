@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# SPACK_SHA, if present, *might* be in a PR branch so is retrieved differently
 
 set -e
 
