@@ -1,5 +1,5 @@
 ##############################################################################
-# Copyright (c) 2019-2020, Lawrence Livermore National Security, LLC and
+# Copyright (c) 2019-2021, Lawrence Livermore National Security, LLC and
 # RADIUSS project contributors. See the COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)
@@ -37,26 +37,26 @@
     paths:
       - "${CI_PROJECT_DIR}/jobs_scratch_dir"
 
-# quartz
-generate-on-quartz:
-  extends: [.generate-pipeline, .on-quartz, .has_project_name]
-  stage: generate-quartz
-  before_script:
-    - .gitlab/print-variables
+## quartz
+#generate-on-quartz:
+#  extends: [.generate-pipeline, .on-quartz, .has_project_name]
+#  stage: generate-quartz
+#  before_script:
+#    - .gitlab/print-variables
 
-#[send-variable-child--]
-build-on-quartz:
-  extends: [.has_project_name]
-  stage: build
-  variables:
-    CHILD_SPACK_PATH: ${SPACK_PATH}
-  trigger:
-    include:
-      - artifact: "jobs_scratch_dir/pipeline.yml"
-        job: generate-on-quartz
-    strategy: depend
-  needs: [generate-on-quartz]
-#[--send-variable-child]
+##[send-variable-child--]
+#build-on-quartz:
+#  extends: [.has_project_name]
+#  stage: build
+#  variables:
+#    CHILD_SPACK_PATH: ${SPACK_PATH}
+#  trigger:
+#    include:
+#      - artifact: "jobs_scratch_dir/pipeline.yml"
+#        job: generate-on-quartz
+#    strategy: depend
+#  needs: [generate-on-quartz]
+##[--send-variable-child]
 
 # lassen
 generate-on-lassen:

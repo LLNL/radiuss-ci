@@ -24,20 +24,20 @@ stages:
   - get-repos
   - concretize-test
   - generate-lassen
-  - generate-quartz
+  #- generate-quartz
   - build
   - rm-repos
 #[--one-generate-per-stage]
 
-.on-quartz:
-  tags: [shell, quartz]
+#.on-quartz:
+#  tags: [shell, quartz]
 
 .on-lassen:
   tags: [shell, lassen]
 
 #[get-repos--]
 get-repos:
-  extends: [.on-quartz]
+  extends: [.on-lassen]  # [.on-quartz]
   stage: get-repos
   script:
     - export SPACK_PACKAGE_DIR=$SPACK_PATH/var/spack/repos/builtin/packages
