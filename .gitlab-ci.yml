@@ -7,9 +7,12 @@
 
   #[create-unique-path--]
 variables:
-  SPACK_PARENT_DIR: ${CI_BUILDS_DIR}/llnl-stack-${CI_COMMIT_SHORT_SHA}
+  CARE_PATH: ${CI_BUILDS_DIR}/llnl-stack-${CI_COMMIT_SHORT_SHA}/care
+  REPO_PARENT_DIR: ${CI_BUILDS_DIR}/llnl-stack-${CI_COMMIT_SHORT_SHA}
   SPACK_PATH: ${CI_BUILDS_DIR}/llnl-stack-${CI_COMMIT_SHORT_SHA}/spack
   #[--create-unique-path]
+  CARE_REPO: https://github.com/LLNL/CARE
+  CARE_REF: develop
   SPACK_REPO: https://github.com/spack/spack.git
   SPACK_REF: 1c92d832b6eefaf2cf1d053ff621ddd44de7606e
   SPACK_DEBUG: "-d"
@@ -18,35 +21,39 @@ variables:
 # We only do one generation per stage because we found conflicts otherwise
 #[one-generate-per-stage--]
 stages:
-  - get-spack
+  - get-repos
   - concretize-test
   - generate-lassen
-  #- generate-quartz
+  - generate-quartz
   - build
-  - rm-spack
+  - rm-repos
 #[--one-generate-per-stage]
 
-#.on-quartz:
-#  tags: [shell, quartz]
+.on-quartz:
+  tags: [shell, quartz]
 
 .on-lassen:
   tags: [shell, lassen]
 
-#[get-spack--]
-get-spack:
-  extends: [.on-lassen]  # [.on-quartz]
-  stage: get-spack
+#[get-repos--]
+get-repos:
+  extends: [.on-quartz]
+  stage: get-repos
   script:
+    - export SPACK_PACKAGE_DIR=$SPACK_PATH/var/spack/repos/builtin/packages
+    - export CARE_PACKAGE_DIR=$CARE_PATH/scripts/spack_packages
     - .gitlab/get-spack
-#[--get-spack]
+    - .gitlab/get-care
+    - .gitlab/copy-care-packages
+#[--get-repos]
 
-#[rm-spack--]
-rm-spack:
+#[rm-repos--]
+rm-repos:
   extends: [.on-lassen]  # [.on-quartz]
-  stage: rm-spack
+  stage: rm-repos
   script:
-    - .gitlab/remove-spack
-#[--rm-spack]
+    - .gitlab/remove-repos
+#[--rm-repos]
 
 include:
   #- .gitlab/concretize.yml

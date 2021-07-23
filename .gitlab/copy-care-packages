@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+# Check necessary variables
+care_package_dir=${CARE_PACKAGE_DIR:-""}
+spack_package_dir=${SPACK_PACKAGE_DIR:-""}
+
+usage() {
+  echo " $0 needs the CARE package directory"
+  echo " Use \$CARE_PACKAGE_DIR to specify it."
+  echo ""
+  echo " $0 needs a Spack package directory"
+  echo " Use \$SPACK_PACKAGE_DIR to specify it."
+}
+
+if [[ -z ${care_package_dir} || ! -d ${care_package_dir} ]]; then
+  echo "[ERROR] No CARE package directory defined in \$CARE_PACKAGE_DIR."
+  usage
+else
+  echo "Using ${care_package_dir} as the CARE package directory."
+fi
+
+if [[ -z ${spack_package_dir} || ! -d ${spack_package_dir} ]]; then
+  echo "[ERROR] No Spack package directory defined in \$SPACK_PACKAGE_DIR."
+  usage
+else
+  echo "Using ${spack_package_dir} as the SPACK package directory."
+fi
+
+DIRS=`ls ${care_package_dir}`
+for dir in $DIRS; do
+  echo "Replace selected package file(s) for ${dir}"
+  cp -f ${care_package_dir}/${dir}/* ${spack_package_dir}/${dir}
+done

@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# Required inputs are environment variables:
+# - CARE_REF  = a branch or hash
+# - CARE_REPO = repository URL
+# - CARE_PATH = repository clone destination
+
+set -e
+
+# Check necessary variables
+care_ref=${CARE_REF:-""}
+care_repo=${CARE_REPO:-""}
+care_path=${CARE_PATH:-""}
+
+usage() {
+  echo " $0 needs either a branch or a hash."
+  echo " Use \$CARE_REF to specify it."
+  echo ""
+  echo " $0 needs a repository url."
+  echo " Use \$CARE_REPO to specify it."
+  echo ""
+  echo " $0 needs a repository clone path."
+  echo " Use \$CARE_PATH to specify it."
+}
+
+if [[ -z ${care_ref} ]]; then
+  echo "[ERROR] No branch or hash are defined in \$CARE_REF."
+  usage
+else
+  echo "[INFO] Using ${care_ref} as the branch or hash."
+fi
+
+if [[ -z ${care_repo} ]]; then
+  echo "[ERROR] No repository url defined in \$CARE_REPO."
+  usage
+else
+  echo "[INFO] Using ${care_repo} as the repository URL."
+fi
+
+if [[ -z ${care_path} ]]; then
+  echo "[ERROR] No clone path defined in \$CARE_PATH."
+  usage
+else
+  echo "[INFO] Using ${care_path} as the clone path."
+fi
+
+echo "[INFO] Calling .gitlab/get-repo from $PWD"
+.gitlab/get-repo $care_repo $care_ref $care_path
+
+##[get-care--]
+## Create a new repo if not present, and prepare for fetch
+#if [[ ! -d ${care_path} ]]
+#then
+#  mkdir -p ${care_path}
+#  cd ${care_path}
+#  git init
+#  git remote add origin ${care_repo}
+#fi
+#
+## Go to the repo.
+#cd ${care_path}
+#
+## Fetch the reference.
+#git fetch --depth 1 origin ${care_ref}
+#
+## Checkout the reference.
+#git checkout FETCH_HEAD
+#
+## Tag the commit with current pipeline ID.
+#git tag ${CI_PIPELINE_ID}
+##[--get-care]

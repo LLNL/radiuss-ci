@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -e
+
+if [[ $# -ne 3 ]]; then
+  echo "[ERROR] $0 requires three command line arguments."
+  echo
+  echo "USAGE: $0 <repository-url> <repository-ref-or-hash> <clone-path>"
+  exit 1
+else
+  echo "Using $1 as the repository url."
+  echo "Using $2 as the repository reference or branch."
+  echo "Using $3 as the clone path."
+fi
+
+# Check necessary variables
+repo=$1
+ref=$2
+clone_path=$3
+
+#[get-repo--]
+# Create a new repo if not present, and prepare for fetch
+if [[ ! -d ${clone_path} ]]
+then
+  mkdir -p ${clone_path}
+  cd ${clone_path}
+  git init
+  git remote add origin ${repo}
+fi
+
+# Go to the repo.
+cd ${clone_path}
+
+# Fetch the reference.
+git fetch --depth 1 origin ${ref}
+
+# Checkout the reference.
+git checkout FETCH_HEAD
+
+# Tag the commit with current pipeline ID.
+git tag ${CI_PIPELINE_ID}
+#[--get-repo]

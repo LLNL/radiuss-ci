@@ -1,10 +1,16 @@
 #!/bin/bash
+#
+# Required inputs are environment variables:
+# - SPACK_REF  = a branch or hash
+# - SPACK_REPO = repository URL
+# - SPACK_PATH = repository clone destination
 
 set -e
 
 # Check necessary variables
 spack_ref=${SPACK_REF:-""}
 spack_repo=${SPACK_REPO:-""}
+spack_path=${SPACK_PATH:-""}
 
 usage() {
   echo " $0 needs either a branch or a hash."
@@ -12,37 +18,54 @@ usage() {
   echo ""
   echo " $0 needs a repository url."
   echo " Use \$SPACK_REPO to specify it."
+  echo ""
+  echo " $0 needs a repository clone path."
+  echo " Use \$SPACK_PATH to specify it."
 }
 
 if [[ -z ${spack_ref} ]]; then
   echo "[ERROR] No branch or hash are defined in \$SPACK_REF."
   usage
+else
+  echo "[INFO] Using ${spack_ref} as the branch or hash."
 fi
 
 if [[ -z ${spack_repo} ]]; then
   echo "[ERROR] No repository defined in \$SPACK_REPO."
   usage
+else
+  echo "[INFO] Using ${spack_repo} as the repository."
 fi
 
-#[get-spack--]
-# Create a new repo if not present, and prepare for fetch
-if [[ ! -d ${SPACK_PATH} ]]
-then
-  mkdir -p ${SPACK_PATH}
-  cd ${SPACK_PATH}
-  git init
-  git remote add origin ${spack_repo}
+if [[ -z ${spack_path} ]]; then
+  echo "[ERROR] No clone path defined in \$SPACK_PATH."
+  usage
+else
+  echo "[INFO] Using ${spack_path} as the clone path."
 fi
 
-# Go to the repo.
-cd ${SPACK_PATH}
+echo "[INFO] Calling .gitlab/get-repo from $PWD"
+.gitlab/get-repo $spack_repo $spack_ref $spack_path
 
-# Fetch the reference.
-git fetch --depth 1 origin ${spack_ref}
-
-# Checkout the reference.
-git checkout FETCH_HEAD
-
-# Tag the commit with current pipeline ID.
-git tag ${CI_PIPELINE_ID}
-#[--get-spack]
+##[get-spack--]
+## Create a new repo if not present, and prepare for fetch
+#if [[ ! -d ${spack_path} ]]
+#then
+#  mkdir -p ${spack_path}
+#  cd ${spack_path}
+#  git init
+#  git remote add origin ${spack_repo}
+#fi
+#
+## Go to the repo.
+#cd ${spack_path}
+#
+## Fetch the reference.
+#git fetch --depth 1 origin ${spack_ref}
+#
+## Checkout the reference.
+#git checkout FETCH_HEAD
+#
+## Tag the commit with current pipeline ID.
+#git tag ${CI_PIPELINE_ID}
+##[--get-spack]

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+#[rm-repos--]
+if [[ ! -d ${REPOS_PARENT_DIR} ]]
+then
+  echo "Repos parent directory ($REPOS_PARENT_DIR) not found"
+else
+  rm -rf ${REPOS_PARENT_DIR}
+fi
+#[--rm-repos]
