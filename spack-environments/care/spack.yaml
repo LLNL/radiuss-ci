@@ -40,7 +40,7 @@ spack:
     - raja@main ^cmake@3.14.5 ^cuda@10.1.168
     - chai+enable_pick@2.3.1 ^cmake@3.14.5 ^cuda@10.1.168 # ^umpire@5.0.0~shared
     - raja@develop ^cmake@3.14.5
-    - care@develop ^cmake@3.14.5
+    - care@develop ^cmake@3.14.5 ^chai~disable_rm
 
   specs:
   - matrix:
