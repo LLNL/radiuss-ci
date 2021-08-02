@@ -4,13 +4,13 @@
 GitLab CI Guide
 ===============
 
-This section documents use of GitLab CI for various projects under
-the RADIUSS scope. All RADIUSS projects are hosted on GitHub. Their
-repositories are mirrored at LLNL using a self-managed GitLab instance
-to test the software on Livermore Computing (LC) machines.
+This section documents the use of GitLab CI for various projects under the
+RADIUSS scope. All RADIUSS projects are hosted on GitHub. Their repositories
+are mirrored at LLNL using a self-managed GitLab instance to test the software
+on Livermore Computing (LC) machines.
 
-The figure illustrates the parallel CI/CD operations. Pull requests
-(PRs) and software releases trigger CI in the Cloud and at LLNL.
+The figure illustrates the dual CI/CD operations: Pull requests (PRs) and
+software releases trigger CI both in the Cloud and at LLNL.
 
 .. figure images/DevOpsCycle.png
    :scale: 40 %
@@ -23,25 +23,22 @@ The figure illustrates the parallel CI/CD operations. Pull requests
 Configuration
 =============
 
-GitLab CI configuration is provided in the ``.gitlab-ci.yml`` file
-at the root of the project. Variables and stages are defined at a
-high level in the file while details are generally maintained separately
-to avoid having a large, monolithic configuration file. Different
-hardware architectures and software stacks are supported by LC so
-machine-specific GitLab runner ``tags`` are included to support
-limiting some jobs to specific machines.
+GitLab CI configuration is provided in the ``.gitlab-ci.yml`` file at the root
+of the project. Variables and stages are defined at a high level in the file
+while details are generally maintained separately to avoid having a large,
+monolithic configuration file. Different hardware architectures and software
+stacks are supported by LC so machine-specific GitLab runner ``tags`` are
+included to support limiting some jobs to specific machines.
 
-The logically separated configuration blocks are maintained in files
-under the ``.gitlab`` subdirectory. Key stages are defined in separate
-``YAML`` files included in the configuration with the ``include``
-keyword. Shell script files defining the work performed by GitLab
-runners are specified under the ``script`` entry of the corresponding
-job.
+The logically separated configuration blocks are maintained in files under the
+``.gitlab`` subdirectory. Key stages are defined in separate ``YAML`` files
+included in the configuration with the ``include`` keyword. Shell script files
+defining the work performed by GitLab runners are specified under the
+``script`` entry of the corresponding job.
 
-Again, the configuration is split in logical blocks instead
-of having only one unique linear file. This is permitted by local ``includes``
-feature in GitLab CI, and all the included files are gathered in ``.gitlab``
-directory.
+Again, the configuration is split in logical blocks instead of having only one
+unique linear file. This is permitted by local ``includes`` feature in GitLab
+CI, and all the included files are gathered in ``.gitlab`` directory.
 
 .. code-block:: bash
 
