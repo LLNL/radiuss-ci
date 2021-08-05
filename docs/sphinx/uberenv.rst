@@ -261,7 +261,7 @@ an failing build:
   do that in RADIUSS, but it is not guaranteed.
 * *Uberenv* is meant to provide a turnkey way to install the project and its
   dependencies. It is usually a good way to reproduce a build on the same
-  machine. The CI works with working directories where the uberenv install
+  machine. The CI creates working directories in which the uberenv install
   directory _may_ persist.
 * Reproducing a build with *Spack* requires a deep knowledge of it. But Uberenv
   helps a lot with that. We advice that you use Uberenv to generate the Spack
