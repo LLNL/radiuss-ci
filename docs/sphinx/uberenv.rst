@@ -250,8 +250,8 @@ build of a package. From the lower to the higher level:
   or not).
 * The *Spack package* is controlled by the spec provided and the configuration.
 * *Uberenv* takes a spec and a json configuration file.
-* A *build_and_test script* also sometimes called test driver. Umpire and RAJA
-  ones require a spec and some other control variables.
+* A *build_and_test script* also sometimes called test driver. The one in Umpire
+  and RAJA requires a spec and some other control variables.
 
 Now, when it comes to debugging, each level has some requirements to reproduce
 an failing build:
