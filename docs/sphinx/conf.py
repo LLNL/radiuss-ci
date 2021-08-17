@@ -1,3 +1,8 @@
+## Copyright (c) 2019-2021, Lawrence Livermore National Security, LLC and
+## other RADIUSS Project Developers. See the top-level COPYRIGHT file for details.
+##
+## SPDX-License-Identifier: (MIT)
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -18,7 +23,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'RadiussCI'
-copyright = u'2020, Adrien M. Bernede'
+copyright = u'2021, Adrien M. Bernede'
 author = u'Adrien M. Bernede'
 
 # The full version, including alpha/beta/rc tags
