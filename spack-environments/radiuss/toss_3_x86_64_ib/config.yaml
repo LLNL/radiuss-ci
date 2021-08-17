@@ -1,4 +1,0 @@
-config:
-  build_jobs: 36
-  
-  concretizer: clingo
