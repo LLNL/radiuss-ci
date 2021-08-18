@@ -1,5 +1,5 @@
 ##############################################################################
-# Copyright (c) 2019-20, Lawrence Livermore National Security, LLC and RADIUSS
+# Copyright (c) 2019-21, Lawrence Livermore National Security, LLC and RADIUSS
 # project contributors. See the COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (MIT)

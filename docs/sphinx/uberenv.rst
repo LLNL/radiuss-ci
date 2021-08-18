@@ -1,3 +1,8 @@
+.. ## Copyright (c) 2019-2021, Lawrence Livermore National Security, LLC and
+.. ## other RADIUSS Project Developers. See the top-level COPYRIGHT file for details.
+.. ##
+.. ## SPDX-License-Identifier: (MIT)
+
 .. _env:
 
 =============
