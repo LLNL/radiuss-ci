@@ -6,30 +6,44 @@
 .. _ci:
 
 ===============
-Gitlab CI Guide
+GitLab CI Guide
 ===============
 
-This documents how CI with Gitlab is implemented in various projects under the
-RADIUSS scope.
+This section documents the use of GitLab CI for various projects under the
+RADIUSS scope. All RADIUSS projects are hosted on GitHub. Their repositories
+are mirrored at LLNL using a self-managed GitLab instance to test the software
+on Livermore Computing (LC) machines.
 
-All RADIUSS projects are open-source, and hosted on GitHub. In order to
-complement their testing with executions on Livermore Computing (LC) machines,
-Gitlab is used. Gitlab provides a mirroring capability from GitHub to LC with
-feedback directly in GitHub pull requests.
+The figure illustrates the dual CI/CD operations: Pull requests (PRs) and
+software releases trigger CI both in the Cloud and at LLNL.
 
-.. image:: images/DevOpsCycle.png
+.. figure images/DevOpsCycle.png
    :scale: 40 %
-   :alt: Gitlab CI complements Cloud CI with testing on Livermore Computing (LC) systems.
+   :alt: GitLab CI complements Cloud CI with testing on Livermore Computing (LC) systems.
    :align: center
 
-Structure
-=========
+   GitLab CI executed on Livermore Computing (LC) machines complements
+   project CI in the Cloud.
 
-The default place for Gitlab CI configuration is ``.gitlab-ci.yml`` file, at the
-root of the project. Still, the configuration is split in logical blocks instead
-of having only one unique linear file. This is permitted by local ``includes``
-feature in Gitlab CI, and all the included files are gathered in ``.gitlab``
-directory.
+Configuration
+=============
+
+GitLab CI configuration is provided in the ``.gitlab-ci.yml`` file at the root
+of the project. Variables and stages are defined at a high level in the file
+while details are generally maintained separately to avoid having a large,
+monolithic configuration file. Different hardware architectures and software
+stacks are supported by LC so machine-specific GitLab runner ``tags`` are
+included to support limiting some jobs to specific machines.
+
+The logically separated configuration blocks are maintained in files under the
+``.gitlab`` subdirectory. Key stages are defined in separate ``YAML`` files
+included in the configuration with the ``include`` keyword. Shell script files
+defining the work performed by GitLab runners are specified under the
+``script`` entry of the corresponding job.
+
+Again, the configuration is split in logical blocks instead of having only one
+unique linear file. This is permitted by local ``includes`` feature in GitLab
+CI, and all the included files are gathered in ``.gitlab`` directory.
 
 .. code-block:: bash
 
@@ -43,7 +57,8 @@ directory.
 
 Machine names is a logical divider in the configuration of our CI: different
 machines allow to test on various hardware architectures and software stacks,
-they are identified with runner ``tags``.
+they are identified with runner ``tags``. It is also a practical divider
+because script and in particular allocation method varies with the machine.
 
 All jobs for a given machine: <machine>-jobs.yml
 ------------------------------------------------
@@ -162,7 +177,6 @@ So that, in the end, our job full definition is:
         when: always
       - when: on_success
 
-
 Multi-Project Testing Workflow
 ==============================
 
@@ -170,7 +184,7 @@ Multi-Project Testing consists, for example, in testing a new version of a
 dependency (e.g. Umpire library) in a project that depends on it (CHAI) by
 triggering the latter CI with the latest version of the former.
 
-This capability is permitted by "pipeline triggers" feature in Gitlab, and
+This capability is permitted by "pipeline triggers" feature in GitLab, and
 illustrated here with Umpire/CHAI/RAJA.
 
 .. image:: images/MultiProjectTestingWorkflow.png
@@ -178,7 +192,7 @@ illustrated here with Umpire/CHAI/RAJA.
    :alt: Multi-Project Testing applied to testing a dependency by triggering the CI pipeline of two projects depending on it, with a newer/custom version of it.
    :align: center
 
-Gitlab configuration for Multi-Project Testing
+GitLab configuration for Multi-Project Testing
 ----------------------------------------------
 
 .. code-block:: yaml
@@ -216,7 +230,7 @@ The update mechanism relies on a small change in CHAI CI build script:
 
 .. _templates:
 
-Gitlab CI template example
+GitLab CI template example
 ==========================
 
 gitlab-ci.yml
