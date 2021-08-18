@@ -259,7 +259,7 @@ build of a package. From the lower to the higher level:
   and RAJA requires a spec and some other control variables.
 
 Now, when it comes to debugging, each level has some requirements to reproduce
-an failing build:
+a failing build:
 
 * The *build_and_test script* typically runs in CI context. This means that it
   may not be designed to run outside CI. It is better if it does, and we try to
@@ -267,12 +267,12 @@ an failing build:
 * *Uberenv* is meant to provide a turnkey way to install the project and its
   dependencies. It is usually a good way to reproduce a build on the same
   machine. The CI creates working directories in which the uberenv install
-  directory _may_ persist.
+  directory _may_ persist, but it is better to reproduce in a local clone.
 * Reproducing a build with *Spack* requires a deep knowledge of it. But Uberenv
   helps a lot with that. We advice that you use Uberenv to generate the Spack
   instance. Then, loading the spack instance generated and working with it is
   safe.
 * Going down to the *build system* is also doable, especially when using
-  host-config files. Once spack installed the dependencies and generated the
-  host-config files, it can be used to control the build of the code and this
-  should not require using Spack.
+  host-config files. Once spack has installed the dependencies and generated
+  the host-config files, it can be used to control the build of the code and
+  this should not require using Spack.
