@@ -65,13 +65,6 @@ and how the different pieces work with one another.
    sphinx/dev_guide/index
 
 
-
-
-   uberenv
-   ci
-   spack-ci
-
-
 .. ## Uberenv and CI Shared Documentation
 .. ## ===================================
 .. ## 
