@@ -12,15 +12,19 @@ Documenting the CI infrastructure developed for RADIUSS projects.
 
 RADIUSS CI is a sub project form the RADIUSS initiative focusing on sharing
 resource and documentation on Continuous Integration among RADIUSS projects.
-We designed an automated infrastructure based on GitLab that we meant to be
-universal enough to be shared among RADIUSS projects. This infrastructure
-involves using Spack to setup the project dependencies and generate a
-configuration file.
 
-LLNL's RADIUSS project (Rapid Application Development via an Institutional
-Universal Software Stack) aims to broaden usage across LLNL and the open source
-community of a set of libraries and tools used for HPC scientific application
-development.
+We designed an automated **CI infrastructure based on GitLab** that we meant to be
+universal enough to be shared among RADIUSS projects. This infrastructure
+involves **using Spack to setup the project dependencies and generate a
+configuration file**. This allows projects to easily **share the full context of
+their builds**. The project is then built and tested as usual and most of **the
+CI infrastructure is shared** to avoid duplication and ease the maintenance.
+
+.. note::
+   LLNL's RADIUSS project (Rapid Application Development via an Institutional
+   Universal Software Stack) aims to broaden usage across LLNL and the open source
+   community of a set of libraries and tools used for HPC scientific application
+   development.
 
 =========================
 Background and Motivation
@@ -63,7 +67,6 @@ and how the different pieces work with one another.
    :caption: Developer Documentation
 
    sphinx/dev_guide/index
-
 
 .. ## Uberenv and CI Shared Documentation
 .. ## ===================================
