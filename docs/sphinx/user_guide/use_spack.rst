@@ -129,13 +129,13 @@ Getting Uberenv as a submodule
     the hostconfig stage in Umpire, CHAI, etc.).
 
 
-Generating <Project> host-config files
-======================================
+Generating the project host-config files
+========================================
 
 This mechanism will generate a cmake configuration file that reproduces the
 configuration `Spack <https://github.com/spack/spack>`_ would have generated in
-the same context. It contains all the information necessary to build <Project>
-with the described toolchain.
+the same context. It contains all the information necessary to build your
+project with the described toolchain.
 
 In particular, the host-config file will setup:
 
@@ -143,7 +143,7 @@ In particular, the host-config file will setup:
 * compilers path, and other toolkits (cuda if required), etc.
 * paths to installed dependencies.
 
-This provides an easy way to build <Project> based on `Spack
+This provides an easy way to build your project based on `Spack
 <https://github.com/spack/spack>`_ and encapsulated in `Uberenv
 <https://github.com/LLNL/uberenv>`_.
 
@@ -156,13 +156,13 @@ Uberenv helps by doing the following:
 * If you are on a known operating system (like TOSS3), we have defined compilers
   and system packages so you don't have to rebuild the world, _e.g._ CMake, or
   MPI.
-* Overrides <Project> Spack packages with the local ones if any. (see
+* Overrides the project Spack packages with the local ones if any. (see
   ``scripts/uberenv/packages``).
 * Covers both dependencies and project build in one command.
 
 Uberenv will create a directory ``uberenv_libs`` containing a Spack instance
-with the required <Project> dependencies installed. It then generates a
-host-config file (``<config_dependent_name>.cmake``) at the root of <Project>
+with the required project dependencies installed. It then generates a
+host-config file (``<config_dependent_name>.cmake``) at the root of the project
 repository.
 
 .. note::
@@ -177,11 +177,11 @@ Preliminary actions
 Machine specific configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Depending on the machine/system, <Project> may or may not provide a spack
-configuration allowing to use uberenv right away.
+Depending on the machine/system, uberenv may or may not provide a spack
+configuration allowing to use it right away.
 
-Check in the machines/systems supported in ``scripts/uberenv/spack_configs``.
-Per machine, <Project> will provide ``compilers.yaml``, ``packages.yaml``, and
+Check the machines/systems supported in ``scripts/uberenv/spack_configs``.
+Per machine, a project will provide ``compilers.yaml``, ``packages.yaml`` and
 ``config.yaml``. The latter being possibly shared with other machines/systems.
 
 Vetted specs
@@ -198,7 +198,7 @@ MacOS case
 ^^^^^^^^^^
 
 It is not trivial to provide a universal configuration for MacOS.  Instead, the
-developper will likely have to complete the ``packages.yaml`` file in order to
+developer will likely have to complete the ``packages.yaml`` file in order to
 adapt the location and version of externally installed dependencies.
 
 

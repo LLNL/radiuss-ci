@@ -5,6 +5,8 @@
 .. ## SPDX-License-Identifier: (MIT)
 .. ##
 
+.. _user_guide-label:
+
 ##########
 User Guide
 ##########

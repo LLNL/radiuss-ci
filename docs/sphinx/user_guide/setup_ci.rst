@@ -19,7 +19,7 @@ you will always be able to use the template as a starting point for a custom
 implementation.
 
 =======================================
-The same script for CI and local builds
+The same script for local and CI builds
 =======================================
 
 In `RAJA <https://github.com/LLNL/RAJA>`_, `Umpire
@@ -44,7 +44,7 @@ files.
   interactive mode, making it easier to test.
 
 =================
-RADIUSS Shared CI
+Radiuss Shared CI
 =================
 
 Now that you have the ``build-and-test`` script, you simply have to follow
