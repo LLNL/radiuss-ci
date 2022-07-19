@@ -35,36 +35,40 @@ RADIUSS projects Spack configuration is shared.
 
 We rely on `Uberenv`_ to facilitate the setup of a local and isolated spack
 instance that will be used to build the project dependencies. We strongly
-suggest to start with Uberenv to keep the configuration script simple.
+suggest that you start with Uberenv to benefit from a reliable Spack usage in
+your CI (tried and tested) and keep the configuration script simple.
 
 =============
 Uberenv Guide
 =============
 
-This documents the setup and usage of Uberenv.
-
-Uberenv can be used to generate custom host-config files, driven by a Spack
-spec. This host-config file will point to the dependencies installed with Spack,
-making the build process of the project straightforward.
+The role of Uberenv will be to manage the setup of your Spack instance and then
+drive Spack while it installs your project dependencies and generates the
+configuration file.
 
 .. image:: images/UberenvWorkflow.png
    :scale: 32 %
    :alt: Uberenv is integrated into a project to drive Spack to build the dependencies and produces host-config files
    :align: center
 
+.. note::
+   Uberenv will create a directory ``uberenv_libs`` containing a Spack
+   instance with the required project dependencies installed. It then
+   generates a CMake configuration file (``<config_dependent_name>.cmake``)
+   at the root of the project repository.
 
-Getting Started
-===============
+   One common source of error when using Uberenv is when the ``uberenv_libs``
+   folder is out of date. To resolve, make sure this folder is deleted before
+   running new scripts for the first time because this folder needs to be
+   regenerated.
 
-Here are some preliminary steps to follow to setup Uberenv, depending on how you
-get Uberenv.
 
 Getting Uberenv by clone/fetch/copy
------------------------------------
+===================================
 
 1. Get uberenv.py script.
 
-    Clone/Fetch/Copy it from `LLNL/uberenv <https://github.com/LLNL/uberenv>`_
+    Clone/Fetch/Copy it from `Uberenv`_ repository.
     into a ``uberenv`` directory, not as a submodule.
 
 2. Edit uberenv/project.json.
@@ -74,8 +78,7 @@ Getting Uberenv by clone/fetch/copy
 
 3. Add radiuss-spack-configs submodule.
 
-    * Use ``git submodule add`` to get `radiuss-spack-config
-      <https://github.com/LLNL/radiuss-spack-config>`_.
+    * Use ``git submodule add`` to get `Radiuss_Spack_Configs`_.
 
     * Create a symlink ``uberenv/spack_configs`` that points to
       ``radiuss-spack-configs``.
@@ -93,12 +96,11 @@ Getting Uberenv by clone/fetch/copy
 
 
 Getting Uberenv as a submodule
-------------------------------
+==============================
 
 1. Get uberenv.py script.
 
-    Use ``git submodule add`` to get `uberenv
-    <https://github.com/LLNL/uberenv>`_ into a ``uberenv`` directory.
+    Use ``git submodule add`` to get `Uberenv`_ into a ``uberenv`` directory.
 
 2. Edit .uberenv.json.
 
@@ -129,116 +131,72 @@ Getting Uberenv as a submodule
     the hostconfig stage in Umpire, CHAI, etc.).
 
 
-Generating the project host-config files
-========================================
+Get the shared Spack configuration
+==================================
 
-This mechanism will generate a cmake configuration file that reproduces the
-configuration `Spack <https://github.com/spack/spack>`_ would have generated in
-the same context. It contains all the information necessary to build your
-project with the described toolchain.
+We share Spack configuration files in `Radiuss_Spack_Configs`_. In this repo
+you will find:
 
-In particular, the host-config file will setup:
+* `config.yaml` for Spack general configuration.
+* `modules.yaml` for modules creation by Spack.
+* One `compilers.yaml` and `packages.yaml` per system type, describing the
+  installed toolchain on each machine.
+
+Depending on the machine/system, we may or may not provide a spack
+configuration allowing you to use it right away. Please refer to
+`Radiuss_Spack_Configs`_ documentation about adding a new machine. This will be
+welcome by the RADIUSS teams using it!
+
+.. note:: MacOS (darwin) case
+   It is not trivial to provide a universal configuration for MacOS.  Instead,
+   the developer will likely have to complete the ``packages.yaml`` file in
+   order to adapt the location and version of externally installed
+   dependencies. MacOS is not available on LC systems, the Spack configuration
+   is provided as-is, for development use.
+
+
+Setup your Spack package to generate a configuration file
+=========================================================
+
+We want to build the dependencies with Spack and then build the project with
+those dependencies but outside of Spack. We need to generate a CMake
+configuration file that reproduces the configuration `Spack`_ would have
+generated in the same context. It should contain all the information necessary
+to build your project with the described toolchain and dependencies.
+
+In particular, the configuration file should setup:
 
 * flags corresponding with the target required (Release, Debug).
 * compilers path, and other toolkits (cuda if required), etc.
 * paths to installed dependencies.
+* any option that may have an impact on your build.
 
-This provides an easy way to build your project based on `Spack
-<https://github.com/spack/spack>`_ and encapsulated in `Uberenv
-<https://github.com/LLNL/uberenv>`_.
+This provides an easy way to build your project based on `Spack`_ configuration
+while only using CMake and a traditionnal developer workflow.
 
-Uberenv role
-------------
+CMake projects: Spack CachedCMakePackage
+----------------------------------------
 
-Uberenv helps by doing the following:
+The use of a CMake build system is strongly recommended to adopt RADIUSS CI
+workflow, that's because of this step. With CMake, we can generate a cache file
+with all the configuration necessary to trigger a build later on. This is
+supported in Spack as soon as your package inherits from
+``CachedCMakePackage``.
 
-* Pulls a blessed version of Spack locally.
-* If you are on a known operating system (like TOSS3), we have defined compilers
-  and system packages so you don't have to rebuild the world, _e.g._ CMake, or
-  MPI.
-* Overrides the project Spack packages with the local ones if any. (see
-  ``scripts/uberenv/packages``).
-* Covers both dependencies and project build in one command.
+Once your package has been ported, stopping the Spack install after
+``initconfig`` phase will prevent it from building your project and the CMake
+configuration file will have been generated already.
 
-Uberenv will create a directory ``uberenv_libs`` containing a Spack instance
-with the required project dependencies installed. It then generates a
-host-config file (``<config_dependent_name>.cmake``) at the root of the project
-repository.
+Non-CMake projects: Custom implementation
+-----------------------------------------
 
-.. note::
-  One common source of error when using Uberenv is that the ``uberenv_libs``
-  folder is out of date. To resolve, make sure this folder is deleted before
-  running new scripts for the first time because this folder needs to be
-  regenerated.
-
-Preliminary actions
--------------------
-
-Machine specific configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Depending on the machine/system, uberenv may or may not provide a spack
-configuration allowing to use it right away.
-
-Check the machines/systems supported in ``scripts/uberenv/spack_configs``.
-Per machine, a project will provide ``compilers.yaml``, ``packages.yaml`` and
-``config.yaml``. The latter being possibly shared with other machines/systems.
-
-Vetted specs
-^^^^^^^^^^^^
-
-Then, one can easily check what specs are tested in CI. For example, when
-looking for the gcc versions tested on quartz:
-
-.. code-block:: bash
-
-  git grep "SPEC" .gitlab/quartz-jobs.yml | grep "gcc"
-
-MacOS case
-^^^^^^^^^^
-
-It is not trivial to provide a universal configuration for MacOS.  Instead, the
-developer will likely have to complete the ``packages.yaml`` file in order to
-adapt the location and version of externally installed dependencies.
-
-
-Using Uberenv to generate the host-config file
-----------------------------------------------
-
-.. code-block:: bash
-
-  $ python scripts/uberenv/uberenv.py
-
-.. note::
-  On LC machines, it is good practice to do the build step in parallel on a
-  compute node. Here is an example command: ``srun -ppdebug -N1 --exclusive
-  python scripts/uberenv/uberenv.py``
-
-Unless otherwise specified Spack will default to a compiler. It is recommended
-to specify which compiler to use: add the compiler spec to the ``--spec=``
-Uberenv command line option.
-
-On blessed systems, compiler specs can be found in the Spack compiler files in
-our repository: ``scripts/uberenv/spack_configs/<system type>/compilers.yaml``.
-
-Some options
-^^^^^^^^^^^^
-
-We already explained ``--spec=`` above:
-
-* ``--spec=%clang@9.0.0``
-* ``--spec=%clang@8.0.1+cuda``
-
-The directory that will hold the Spack instance and the installations can also
-be customized with ``--prefix=``:
-
-* ``--prefix=<Path to uberenv build directory (defaults to ./uberenv_libs)>``
-
-Building dependencies can take a long time. If you already have a Spack instance
-you would like to reuse (in supplement of the local one managed by Uberenv), you
-can do so with the ``--upstream=`` option:
-
-* ``--upstream=<path_to_my_spack>/opt/spack ...``
+The only example of a non-CMake project that adopted this workflow is MFEM.
+Altough it is using a Makefile build system in its Spack Packages, MFEM is
+generating a configuration file that can be used just like a CMake configuraton
+file. We adapted the implementation of the package to mimics the mechanism
+available in CMake-based packages. You may use that as an example.
 
 .. _Radiuss-Spack-Configs: https://github.com/LLNL/radiuss-spack-configs
 .. _Uberenv: https://github.com/LLNL/uberenv
+.. _Spack: https://github.com/spack/spack
+

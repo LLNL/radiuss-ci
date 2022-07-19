@@ -11,9 +11,14 @@
 User Guide
 ##########
 
-An automated infrastructure based on GitLab that we meant to be universal
-enough to be shared among RADIUSS projects. This infrastructure involves using
-Spack to setup the project dependencies and generate a configuration file.
+We designed an automated *CI infrastructure based on GitLab* that we meant to be
+universal enough to be shared among RADIUSS projects. This infrastructure
+involves *using Spack to setup the project dependencies and generate a
+configuration file*. This allows projects to easily *share the full context of
+their builds*. The project is then built and tested as usual and most of *the
+CI infrastructure is shared* to avoid duplication and ease the maintenance.
+
+We split the design in three steps necessary to adopt RADIUSS CI methodology.
 
 .. toctree::
    :maxdepth: 2
@@ -21,4 +26,5 @@ Spack to setup the project dependencies and generate a configuration file.
    use_spack
    build_and_test
    setup_ci
+   how_to
 
