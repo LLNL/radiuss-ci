@@ -42,7 +42,7 @@ We split the design in three steps necessary to adopt RADIUSS CI methodology.
 Those actions will be documented in the `user_guide`_.
 
 1. **Use Spack to configure the project build.**
-   Spack provides a common context to express *toolchains*, *machines
+   Spack provides a single context to express *toolchains*, *machines
    setup* and *build sequence*. It is increasingly used to install the
    dependency tree of large simulation codes.
 2. **Build and test without breaking your habits.**
@@ -72,35 +72,3 @@ explained there.
    :caption: Developer Documentation
 
    sphinx/dev_guide/index
-
-.. ## Uberenv and CI Shared Documentation
-.. ## ===================================
-.. ## 
-.. ## In RADIUSS, we designed a streamlined process to build your project with its
-.. ## dependencies using Spack and Uberenv, and add a basic CI to test those builds
-.. ## in Gitlab.
-.. ## 
-.. ## Before getting started, it is a good idea to read the `LC specific
-.. ## documentation for Gitlab <https://gitlab.llnl.gov>`_. In particular, the
-.. ## "Getting Started" and "Setup Mirroring" sub-pages *will help*.
-.. ## 
-.. ## The main steps are:
-.. ## 
-.. ## 1. Get Uberenv. See :ref:`env`.
-.. ## 2. Setup CI. See :ref:`ci`.
-.. ## 3. Create build_and_test script.
-.. ## 
-.. ## .. toctree::
-.. ##    :maxdepth: 2
-.. ##    :caption: Shared Documentation
-.. ## 
-.. ##    uberenv
-.. ##    ci
-.. ##    spack-ci
-.. ## 
-.. ## Indices and tables
-.. ## ==================
-.. ## 
-.. ## * :ref:`genindex`
-.. ## * :ref:`modindex`
-.. ## * :ref:`search`

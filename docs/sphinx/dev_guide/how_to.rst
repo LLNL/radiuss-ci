@@ -17,12 +17,12 @@ Use Uberenv
 
 .. code-block:: bash
 
-  $ python scripts/uberenv/uberenv.py
+  $ ./scripts/uberenv/uberenv.py
 
 .. note::
   On LC machines, it is good practice to do the build step in parallel on a
   compute node. Here is an example command: ``srun -ppdebug -N1 --exclusive
-  python scripts/uberenv/uberenv.py``
+  ./scripts/uberenv/uberenv.py``
 
 Unless otherwise specified Spack will default to a compiler. It is recommended
 to specify which compiler to use: add the compiler spec to the ``--spec=``
