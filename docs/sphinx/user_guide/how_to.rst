@@ -5,7 +5,7 @@
 .. ## SPDX-License-Identifier: (MIT)
 .. ##
 
-.. _how_to-label:
+.. _user_how_to-label:
 
 ******
 How To

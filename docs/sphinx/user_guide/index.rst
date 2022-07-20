@@ -27,4 +27,3 @@ We split the design in three steps necessary to adopt RADIUSS CI methodology.
    build_and_test
    setup_ci
    how_to
-
