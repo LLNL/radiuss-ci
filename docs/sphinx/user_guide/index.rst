@@ -26,4 +26,10 @@ We split the design in three steps necessary to adopt RADIUSS CI methodology.
    use_spack
    build_and_test
    setup_ci
+
+We also provide an "How To" section.
+
+.. toctree::
+   :maxdepth: 2
+
    how_to
