@@ -11,7 +11,7 @@
 Setup the CI using the shared template
 **************************************
 
-.. image:: images/UberenvWorkflowCI.pdf
+.. image:: images/UberenvWorkflowCI.png
    :scale: 32 %
    :alt: Once Spack and the build script setup, adopting the shared CI should be easy.
    :align: center

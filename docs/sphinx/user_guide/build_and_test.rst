@@ -12,7 +12,7 @@
 Build and test without breaking your habits
 *******************************************
 
-.. image:: images/UberenvWorkflowScript.pdf
+.. image:: images/UberenvWorkflowScript.png
    :scale: 32 %
    :alt: We need the project to be buildable from the CMake cached configuration file. A build script will be required for CI.
    :align: center

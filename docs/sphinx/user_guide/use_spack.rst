@@ -12,7 +12,7 @@
 Use Spack to configure the project build
 ****************************************
 
-.. image:: images/UberenvWorkflowSpack.pdf
+.. image:: images/UberenvWorkflowSpack.png
    :scale: 32 %
    :alt: Uberenv is integrated into a project to drive Spack to build the dependencies and produce a CMake cached configuration files
    :align: center
