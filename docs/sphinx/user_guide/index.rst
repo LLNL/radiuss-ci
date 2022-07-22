@@ -40,8 +40,8 @@ We also provide an "How To" section.
    how_to
 
 .. warning::
-   Due to its GitLab CI sharing goal, Radiuss-CI is meant to live on LC GitLab
-   instance. The main repo, hosted on GitHub for accessibility and visibility,
-   is mirrored on LC GitLab. To include files from Radiuss-CI, we recommend
-   pointing to the mirror repo on GitLab rather than the GitHub one. We only
-   document that option.
+   Due to its GitLab CI sharing goal, Radiuss Shared CI is meant to live on LC
+   GitLab instance. The main repo, hosted on GitHub for accessibility and
+   visibility, is mirrored on LC GitLab. To include files from Radiuss-CI, we
+   recommend pointing to the mirror repo on GitLab rather than the GitHub one.
+   We only document that option.
