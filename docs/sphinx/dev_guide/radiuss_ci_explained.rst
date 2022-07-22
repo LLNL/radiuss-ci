@@ -21,7 +21,7 @@ Project structure
 Shared CI files
 ===============
 
-This projects hosts the shared CI configuration, which can be found in
+This project hosts the shared CI configuration, which can be found in
 the YAML files at the root of the project: ``<machine>-build-and-test.yml``.
 
 Each file contains both the configuration and the jobs for one machine. They
