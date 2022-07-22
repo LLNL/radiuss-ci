@@ -46,7 +46,7 @@ The role of Uberenv will be to manage the setup of your Spack instance and then
 drive Spack to install your project dependencies and generate the
 configuration file.
 
-.. image:: images/UberenvWorkflow.png
+.. image:: images/UberenvWorkflow.pdf
    :scale: 32 %
    :alt: Uberenv is integrated into a project to drive Spack to build the dependencies and produces host-config files
    :align: center
