@@ -10,8 +10,9 @@ RADIUSS CI
 
 Documentation of the CI infrastructure developed for RADIUSS projects.
 
-RADIUSS CI is a-sub project from the RADIUSS initiative focusing on sharing
-resource and documentation on Continuous Integration among RADIUSS projects.
+RADIUSS CI is a sub-project from the RADIUSS initiative focusing on sharing
+resource and documentation regarding Continuous Integration among RADIUSS
+projects.
 
 .. note::
    LLNL's RADIUSS project (Rapid Application Development via an Institutional

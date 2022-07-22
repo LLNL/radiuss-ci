@@ -44,6 +44,7 @@ toolchain. With CMake, the usage is as follow:
 In the end, this should not be a major change in the developers habit: this is
 standard CMake procedure.
 
+.. _write-ci-script:
 
 =======================
 Writing a script for CI
@@ -67,7 +68,13 @@ The script should therefore be calleable that way:
 .. note::
   Making the CI scripts usable outside CI context is recommended since, by
   definition, it has been vetted. It also ensures that this script is usable in
-  interactive mode, making it easier to test.
+  interactive mode, making it easier to test. This is why to document it in the
+  build part rather than the CI part.
+
+Umpire, RAJA, CHAI, MFEM each have their own script you could easily adapt. All
+these projects use Uberenv to drive Spack. Umpire, RAJA and CHAI share the
+Spack configuration files in `Radiuss-Spack-Configs`_ in order to keep building
+with the same tool-chains.
 
 
 =========

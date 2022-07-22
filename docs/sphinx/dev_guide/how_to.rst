@@ -11,39 +11,77 @@
 How To
 ******
 
-===========
-Use Uberenv
-===========
+=================
+Add a new machine
+=================
 
-.. code-block:: bash
+Adding a new machine can be done directly in this project so that the
+configuration is shared with all. However it the associated Spack configuration
+must first be added to `Radiuss-Spack-Configs`_.
 
-  $ ./scripts/uberenv/uberenv.py
+The sub-pipeline definition
+===========================
+
+To add a new machine, create a corresponding ``<machine>-build-and-test.yml``
+file describing the sub-pipeline. There are two main cases: whether the machine
+uses Slurm or LSF Spectrum as a scheduler.
+
+Machines using Slurm scheduler
+------------------------------
+
+For machines using Slurm scheduler, use ``ruby`` (or ``corona``) as a starting
+point. Then replace all the instances of "RUBY" and "ruby" with the new machine
+name.
+
+Then go to ``customization/custom-variables.yml`` and add the variables:
+
+* ``<MACHINE>_BUILD_AND_TEST_SHARED_ALLOC`` with allocation options sufficient
+  for the shared allocation (salloc) to contain all the jobs.
+* ``<MACHINE>_BUILD_AND_TEST_JOB_ALLOC`` with allocation options for any of the
+  jobs (srun) the machine will take. The job will run under the shared
+  allocation, also, do not prescribe a number of cores here, as they should be
+  defined at Spack and Make/CMake level.
 
 .. note::
-  On LC machines, it is good practice to do the build step in parallel on a
-  compute node. Here is an example command: ``srun -ppdebug -N1 --exclusive
-  ./scripts/uberenv/uberenv.py``
+   Use the values we have for ruby and corona as guides, but adapt the
+   partition, number of cpus per task and duration coherently with the machine.
 
-Unless otherwise specified Spack will default to a compiler. It is recommended
-to specify which compiler to use: add the compiler spec to the ``--spec=``
-Uberenv command line option.
+Machines using LSF Spectrum scheduler
+-------------------------------------
 
-Some options
-^^^^^^^^^^^^
+For machines using LSF Spectrum scheduler, use ``lassen`` as a starting point.
+Then replace all the instances of "LASSEN" and "lassen" with the new machine
+name.
 
-``--spec=`` is used to define how your project will be built. It should be the
-same as a spack spec, without the project name:
+Then go to ``customization/custom-variables.yml`` and add the variables:
 
-* ``--spec=%clang@9.0.0``
-* ``--spec=%clang@8.0.1+cuda``
+* ``<MACHINE>_BUILD_AND_TEST_JOB_ALLOC`` with allocation options for any of the
+  jobs the machine will take.
 
-The directory that will hold the Spack instance and the installations can also
-be customized with ``--prefix=``:
+.. note::
+   Use the values we have for lassen as guides, but adapt the partition and
+   duration coherently with the machine.
 
-* ``--prefix=<Path to uberenv build directory (defaults to ./uberenv_libs)>``
+Reference the new sub-pipeline
+==============================
 
-Building dependencies can take a long time. If you already have a Spack instance
-you would like to reuse (in supplement of the local one managed by Uberenv), you
-can do so with the ``--upstream=`` option:
+In ``customization/custom-pipelines.yml``, add a new section corresponding to
+the new machine. This is used by ``customization/gitlab-ci.yml`` to control
+which sub-pipelines are effectively generated.
 
-* ``--upstream=<path_to_my_spack>/opt/spack ...``
+Changelog
+=========
+
+Don’t forget to provide a quick description of your changes in the
+``CHANGELOG.md``.
+
+New tag
+=======
+
+Once the new machine setup is tested and valid, submit a PR. We will review it
+and merge it. We may create a new tag although it is not required for a new
+machine. Indeed, using a new machine is a voluntary change for users: they will
+have to activate it in ``customization/custom-pipelines.yml`` the same way you
+did above (which is a suggested template).
+
+.. _Radiuss-Spack-Configs: https://github.com/LLNL/radiuss-spack-configs
