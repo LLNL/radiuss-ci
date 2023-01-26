@@ -1,0 +1,5 @@
+
+myjob:
+  tags: [shell, quartz]
+  script:
+    - echo -e "Hello World"
