@@ -1,3 +1,10 @@
+[ WARNING: Archived repository ]
+This repository has been archive since it was replaced by 3 repositories depending
+on the targeted usage:
+- [RADIUSS Shared CI](https://github.com/LLNL/radiuss-shared-ci) is where the Shared CI infrastucture is implemented and [documented](https://radiuss-shared-ci.readthedocs.io/en/latest/#).
+- [RADIUSS Spack Configs](https://github.com/LLNL/radiuss-spack-configs) is where the Spack Shared configuration is implemented and [documented](https://radiuss-spack-configs.readthedocs.io/en/latest/index.html).
+- [RADIUSS Spack Testing](https://github.com/LLNL/radiuss-spack-testing) is where we have our Packages test and deployment infrastructure.
+
 # RADIUSS CI
 
 The RADIUSS project promotes and supports key High Performance Computing (HPC)
